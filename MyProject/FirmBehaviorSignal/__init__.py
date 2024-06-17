@@ -130,11 +130,11 @@ def set_payoffs(group: Group):
     group.IS3=playersDF.informalSignal[3]
     group.IS4=playersDF.informalSignal[4]
     group.IS5=playersDF.informalSignal[5]
-    group.FS1=playersDF.formalSignal[1].astype(int)
-    group.FS2=playersDF.formalSignal[2].astype(int)
-    group.FS3=playersDF.formalSignal[3].astype(int)
-    group.FS4=playersDF.formalSignal[4].astype(int)
-    group.FS5=playersDF.formalSignal[5].astype(int)
+    group.FS1=playersDF.formalSignal[1]
+    group.FS2=playersDF.formalSignal[2]
+    group.FS3=playersDF.formalSignal[3]
+    group.FS4=playersDF.formalSignal[4]
+    group.FS5=playersDF.formalSignal[5]
     
 class Player(BasePlayer):
     informalSignal = models.FloatField(initial=0, label='Please invest in your informal signals ')
