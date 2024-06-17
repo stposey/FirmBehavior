@@ -156,31 +156,31 @@ def set_payoffs(group: Group):
     for p in players:
         p.profit=(p.price-p.Cost)*p.Demand
     
-    group.price1=round(playerDF.price[0],2)
-    group.price2=round(playerDF.price[1],2)
-    group.price3=round(playerDF.price[2],2)
-    group.price4=round(playerDF.price[3],2)
-    group.price5=round(playerDF.price[4],2)
-    group.profit1=round(playerDF.profit[0],2)
-    group.profit2=round(playerDF.profit[1],2)
-    group.profit3=round(playerDF.profit[2],2)
-    group.profit4=round(playerDF.profit[3],2)
-    group.profit5=round(playerDF.profit[4],2)
-    group.quality1=playerDF.quality[0]
-    group.quality2=playerDF.quality[1]
-    group.quality3=playerDF.quality[2]
-    group.quality4=playerDF.quality[3]
-    group.quality5=playerDF.quality[4]
-    group.IS1=playerDF.informalSignals[0]
-    group.IS2=playerDF.informalSignals[1]
-    group.IS3=playerDF.informalSignals[2]
-    group.IS4=playerDF.informalSignals[3]
-    group.IS5=playerDF.informalSignals[4]
-    group.FS1=playerDF.formalSignals[0].astype(int)
-    group.FS2=playerDF.formalSignals[1].astype(int)
-    group.FS3=playerDF.formalSignals[2].astype(int)
-    group.FS4=playerDF.formalSignals[3].astype(int)
-    group.FS5=playerDF.formalSignals[4].astype(int)
+    group.price1=playerDF.price[0].item()
+    group.price2=playerDF.price[1].item()
+    group.price3=playerDF.price[2].item()
+    group.price4=playerDF.price[3].item()
+    group.price5=playerDF.price[4].item()
+    group.profit1=playerDF.profit[0].item()
+    group.profit2=playerDF.profit[1].item()
+    group.profit3=playerDF.profit[2].item()
+    group.profit4=playerDF.profit[3].item()
+    group.profit5=playerDF.profit[4].item()
+    group.quality1=playerDF.quality[0].item()
+    group.quality2=playerDF.quality[1].item()
+    group.quality3=playerDF.quality[2].item()
+    group.quality4=playerDF.quality[3].item()
+    group.quality5=playerDF.quality[4].item()
+    group.IS1=playerDF.informalSignals[0].item()
+    group.IS2=playerDF.informalSignals[1].item()
+    group.IS3=playerDF.informalSignals[2].item()
+    group.IS4=playerDF.informalSignals[3].item()
+    group.IS5=playerDF.informalSignals[4].item()
+    group.FS1=playerDF.formalSignals[0].item()
+    group.FS2=playerDF.formalSignals[1].item()
+    group.FS3=playerDF.formalSignals[2].item()
+    group.FS4=playerDF.formalSignals[3].item()
+    group.FS5=playerDF.formalSignals[4].item()
     
 class Player(BasePlayer):
     informalSignal = models.FloatField(initial=0, label='Please invest in your informal signals ')
