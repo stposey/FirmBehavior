@@ -43,7 +43,7 @@ class Group(BaseGroup):
     FS5 = models.FloatField()
 def set_payoffs(group: Group):
     import pandas as pd
-
+    import numpy as np
     
     qualities=[]
     prices=[]
@@ -61,7 +61,7 @@ def set_payoffs(group: Group):
         formalSignals.append(p.formalSignal)
         informalSignals.append(p.informalSignal)
         playerList.append(p.id_in_group)
-        p.perceivedQuality=p.quality+math.log(p.informalSignal+1)+50*p.formalSignal
+        p.perceivedQuality=p.quality+np.log(p.informalSignal+1)+50*p.formalSignal
     
     
     PlayerDF = pd.DataFrame(data = {'playerid':playerList,'quality':qualities,'price':prices,'informalSignal':informalSignals,'formalSignal':formalSignals})
@@ -110,31 +110,60 @@ def set_payoffs(group: Group):
     for p in players:
         p.profit=(p.price-p.Cost)*p.Demand
     
-group.price1=playersDF.price[1].item()
-group.price2=playersDF.price[2].item()
-group.price3=playersDF.price[3].item()
-group.price4=playersDF.price[4].item()
-group.price5=playersDF.price[5].item()
-group.profit1=playersDF.profit[1].item()
-group.profit2=playersDF.profit[2].item()
-group.profit3=playersDF.profit[3].item()
-group.profit4=playersDF.profit[4].item()
-group.profit5=playersDF.profit[5].item()
-group.quality1=playersDF.quality[1].item()
-group.quality2=playersDF.quality[2].item()
-group.quality3=playersDF.quality[3].item()
-group.quality4=playersDF.quality[4].item()
-group.quality5=playersDF.quality[5].item()
-group.IS1=playersDF.informalSignal[1].item()
-group.IS2=playersDF.informalSignal[2].item()
-group.IS3=playersDF.informalSignal[3].item()
-group.IS4=playersDF.informalSignal[4].item()
-group.IS5=playersDF.informalSignal[5].item()
-group.FS1=playersDF.formalSignal[1].item()
-group.FS2=playersDF.formalSignal[2].item()
-group.FS3=playersDF.formalSignal[3].item()
-group.FS4=playersDF.formalSignal[4].item()
-group.FS5=playersDF.formalSignal[5].item()
+    group.price1=round(playersDF.price[1],2)
+    group.price2=round(playersDF.price[2],2)
+    group.price3=round(playersDF.price[3],2)
+    group.price4=round(playersDF.price[4],2)
+    group.price5=round(playersDF.price[5],2)
+    group.profit1=round(playersDF.profit[1],2)
+    group.profit2=round(playersDF.profit[2],2)
+    group.profit3=round(playersDF.profit[3],2)
+    group.profit4=round(playersDF.profit[4],2)
+    group.profit5=round(playersDF.profit[5],2)
+    group.quality1=playersDF.quality[1]
+    group.quality2=playersDF.quality[2]
+    group.quality3=playersDF.quality[3]
+    group.quality4=playersDF.quality[4]
+    group.quality5=playersDF.quality[5]
+    group.IS1=playersDF.informalSignal[1]
+    group.IS2=playersDF.informalSignal[2]
+    group.IS3=playersDF.informalSignal[3]
+    group.IS4=playersDF.informalSignal[4]
+    group.IS5=playersDF.informalSignal[5]
+    group.FS1=playersDF.formalSignal[1]
+    group.FS2=playersDF.formalSignal[2]
+    group.FS3=playersDF.formalSignal[3]
+    group.FS4=playersDF.formalSignal[4]
+    group.FS5=playersDF.formalSignal[5]
+    
+    group.price1=group.price1.item()
+    group.price2=group.price2.item()
+    group.price3=group.price3.item()
+    group.price4=group.price4.item()
+    group.price5=group.price5.item()
+    group.profit1=group.profit1.item()
+    group.profit2=group.profit2.item()
+    group.profit3=group.profit3.item()
+    group.profit4=group.profit4.item()
+    group.profit5=group.profit5.item()
+    group.quality1=group.quality1.item()
+    group.quality2=group.quality2.item()
+    group.quality3=group.quality3.item()
+    group.quality4=group.quality4.item()
+    group.quality5=group.quality5.item()
+    group.IS1=group.IS1.item()
+    group.IS2=group.IS2.item()
+    group.IS3=group.IS3.item()
+    group.IS4=group.IS4.item()
+    group.IS5=group.IS5.item()
+    group.FS1=group.FS1.item()
+    group.FS2=group.FS2.item()
+    group.FS3=group.FS3.item()
+    group.FS4=group.FS4.item()
+    group.FS5=group.FS5.item()
+    
+    
+    
     
 class Player(BasePlayer):
     informalSignal = models.FloatField(initial=0, label='Please invest in your informal signals ')
