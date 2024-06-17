@@ -1,0 +1,92 @@
+{{ extends 'global/Page.html' }}
+{{ block title }}Set Your Price, Quality, and Informal Signal{{ endblock }}
+
+{{ block content }}
+
+<h1>Make Your Decisions</h1>
+<p>
+    Enter the quality of your product. Quality ranges from 0 to 100 with 100 being the highest quality obtainable. Customers prefer higher quality to lower quality products. As you increase the quality of your product, the cost to make your product increases. If you set your quality level to 68, it will cost your firm $68 to produce that product.
+</p>
+<form id="decision-form" method="post">
+<p>
+    Enter the quality of your product. Quality ranges from 0 to 100 with 100 being the highest quality obtainable. The form will not let you put in a value over 100. Customers prefer higher quality to lower quality products. As you increase the quality of your product, the cost to make your product increases. If you set your quality level to 68, it will cost your firm $68 to produce that product.
+</p>
+    <label for="quality">Quality:</label>
+    <input type="float" id="quality" name="quality" min="0" max="100" initial=0 value="{{ player.quality }}" oninput="checkQualityAndUpdateFormalSignal()">
+    <br><br>
+
+    <p>Enter your investment into informal signals. Your level must be above 0, and can be as high as you choose. Investing is not free and your costs increase as you invest more in informal signals. The cost per product is equal to half of your investment in informal signals</p>
+    <label for="informalSignal">Informal Signal:</label>
+    <input type="float" id="informalSignal" name="informalSignal" min="0" initial=0 value="{{ player.informalSignal }}" oninput="calculateCost()">
+    <br><br>
+
+    <p>
+     A formal certification informs consumers that your quality is high and has been verified. To access formal certifications, your product must meet a minimum quality of 60. Once you enter in a quality above 60 you can access formal certifications. Just as in real life, you cannot call your product USDA organic if it does not meet the requirements of being USDA organic. Examples of formal certificats would be USDA Organic, Fair Trade, Non-GMO, or any form of certification that requires a licensed third party organization to verify your quality. You incur a cost for certification, the cost per product is $50.   
+    </p>
+    <label for="formalSignal">Formal Signal:</label>
+    <input type="float" id="formalSignal" name="formalSignal" min="0" max="1" initial=0 value="{{ player.formalSignal }}" oninput="checkQualityAndUpdateFormalSignal()">>
+    <br><br>
+    <p>
+        
+    </p>
+
+</form>
+
+<p id="cost-display">Based on your choices, your cost to produce 1 product is: $0</p>
+
+{{ next_button }}
+
+<script>
+    function checkQualityAndUpdateFormalSignal() {
+        var qualityInput = document.getElementById("quality");
+        var quality = parseFloat(qualityInput.value) || 0;
+
+        if (quality < 0) {
+            quality = 0;
+            qualityInput.value = 0;
+        } else if (quality > 100) {
+            quality = 100;
+            qualityInput.value = 100;
+        }
+
+        var quality = parseFloat(qualityInput.value) || 0;
+
+        var formalSignalInput = document.getElementById("formalSignal");
+        var formalSignal = parseFloat(formalSignalInput.value) || 0;
+        
+        if (formalSignal < 0) {
+            formalSignal = 0;
+            formalSignalInput.value = 0;
+        } else if (formalSignal > 1) {
+            formalSignal = 1;
+            formalSignalInput.value = 1;
+        }
+        
+
+        if (quality < 60) {
+            formalSignal = 0;
+            formalSignalInput.value = 0;
+        } 
+
+        calculateCost();
+    }
+
+    function calculateCost() {
+        var quality = parseFloat(document.getElementById("quality").value) || 0;
+        var informalSignal = parseFloat(document.getElementById("informalSignal").value) || 0;
+        var formalSignal = parseFloat(document.getElementById("formalSignal").value) || 0;
+
+        if (quality < 60) {
+            formalSignal = 0;
+        }
+
+        var cost = quality + 0.5 * informalSignal + 10 * formalSignal;
+        document.getElementById("cost-display").innerText = "Total Cost: $" + cost.toFixed(2);
+    }
+
+    // Initial check in case the page loads with values already set
+    checkQualityAndUpdateFormalSignal();
+</script>
+{{ formfield_errors 'formalSignal' }}
+
+{{ endblock }}

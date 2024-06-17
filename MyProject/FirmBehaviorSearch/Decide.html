@@ -1,0 +1,55 @@
+{{ extends 'global/Page.html' }}
+{{ block title }}Set Your Price and Quality{{ endblock }}
+
+{{ block content }}
+
+<h1>Make Your Decisions</h1>
+<p>
+    Enter the quality of your product. Quality ranges from 0 to 100 with 100 being the highest quality obtainable. Customers prefer higher quality to lower quality products. As you increase the quality of your product, the cost to make your product increases. If you set your quality level to 68, it will cost your firm $68 to produce that product.
+</p>
+<form id="decision-form" method="post">
+<p>
+    Enter the quality of your product. Quality ranges from 0 to 100 with 100 being the highest quality obtainable. The form will not let you put in a value over 100. Customers prefer higher quality to lower quality products. As you increase the quality of your product, the cost to make your product increases. If you set your quality level to 68, it will cost your firm $68 to produce that product.
+</p>
+    <label for="quality">Quality:</label>
+    <input type="float" id="quality" name="quality" min="0" max="100" initial=0 value="{{ player.quality }}" oninput="checkQualityAndUpdateFormalSignal()">
+    <br><br>
+
+
+<p id="cost-display">Based on your choices, your cost to produce 1 product is: $0</p>
+    
+    
+{{ next_button }}
+
+<script>
+    function checkQualityAndUpdateFormalSignal() {
+        var qualityInput = document.getElementById("quality");
+        var quality = parseFloat(qualityInput.value) || 0;
+
+        if (quality < 0) {
+            quality = 0;
+            qualityInput.value = 0;
+        } else if (quality > 100) {
+            quality = 100;
+            qualityInput.value = 100;
+        }
+
+
+
+        calculateCost();
+    }
+
+    function calculateCost() {
+        var quality = parseFloat(document.getElementById("quality").value) || 0;
+
+
+        var cost = quality;
+        document.getElementById("cost-display").innerText = "Total Cost: $" + cost.toFixed(2);
+    }
+
+    // Initial check in case the page loads with values already set
+    checkQualityAndUpdateFormalSignal();
+</script>
+
+
+{{ endblock }}
