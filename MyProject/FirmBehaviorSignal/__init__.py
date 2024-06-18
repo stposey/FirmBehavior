@@ -165,7 +165,7 @@ def set_payoffs(group: Group):
     for p in players:
         p.perceivedQuality=p.perceivedQuality.item()
         p.Demand=p.Demand.item()
-        p.qualityRank=p.qualityRank.item()
+
     
     
     
@@ -178,7 +178,6 @@ class Player(BasePlayer):
     price = models.FloatField(initial=0, label='Please enter an amount as your price')
     Cost = models.FloatField(initial=0)
     profit = models.FloatField()
-    qualityRank = models.FloatField()
     formalSignal = models.FloatField(initial=0, max=1)
 def cost_function(player: Player):
     if(player.quality<60):
