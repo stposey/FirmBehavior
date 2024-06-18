@@ -171,9 +171,7 @@ def set_payoffs(group: Group):
     group.quality5=group.quality5.item()
     
     for p in players:
-        p.price=p.price.item()
-        p.quality=p.quality.item()
-        p.Cost=p.Cost.item()
+        p.profit=p.profit.item()
         p.Demand=p.Demand.item()
     
     
