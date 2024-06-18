@@ -208,6 +208,16 @@ def set_payoffs(group: Group):
     group.FS4=group.FS4.item()
     group.FS5=group.FS5.item()
     
+    for p in players:
+        p.price=p.price.item()
+        p.quality=p.quality.item()
+        p.informalSignal=p.informalSignal.item()
+        p.perceivedQuality=p.perceivedQuality.item()
+        p.Cost=p.Cost.item()
+        p.Demand=p.Demand.item()
+        p.formalSignal=p.formalSignal.item()
+    
+    
 class Player(BasePlayer):
     informalSignal = models.FloatField(initial=0, label='Please invest in your informal signals ')
     quality = models.FloatField(initial=0, label='Please enter the quality level from 0 to 100 for your product', max=C.MAXIMUM_QUALITY)
