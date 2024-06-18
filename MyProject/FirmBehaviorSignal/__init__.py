@@ -164,7 +164,6 @@ def set_payoffs(group: Group):
     
     for p in players:
         p.perceivedQuality=p.perceivedQuality.item()
-        p.Cost=p.Cost.item()
         p.Demand=p.Demand.item()
         p.qualityRank=p.qualityRank.item()
     
