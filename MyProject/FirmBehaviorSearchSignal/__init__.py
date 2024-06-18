@@ -218,7 +218,6 @@ class Player(BasePlayer):
     informalSignal = models.FloatField(initial=0, label='Please invest in your informal signals ')
     quality = models.FloatField(initial=0, label='Please enter the quality level from 0 to 100 for your product', max=C.MAXIMUM_QUALITY)
     profit = models.FloatField()
-    perceivedQuality = models.FloatField()
     Demand = models.FloatField(initial=0)
     price = models.FloatField(initial=0, label='Please enter an amount as your price')
     formalSignal = models.FloatField(blank=True, initial=0, label='Choose whether to apply or not apply formal signals ', max=1, min=0)
