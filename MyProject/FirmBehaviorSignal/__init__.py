@@ -163,7 +163,6 @@ def set_payoffs(group: Group):
     group.FS5=group.FS5.item()
     
     for p in players:
-        p.price=p.price.item()
         p.quality=p.quality.item()
         p.informalSignal=p.informalSignal.item()
         p.perceivedQuality=p.perceivedQuality.item()
