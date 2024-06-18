@@ -165,6 +165,7 @@ def set_payoffs(group: Group):
     for p in players:
         p.perceivedQuality=p.perceivedQuality.item()
         p.Demand=p.Demand.item()
+        p.profit=p.profit.item()
 
     
     
