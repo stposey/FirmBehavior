@@ -1,0 +1,17 @@
+{{ extends 'global/Page.html' }}
+{{ block title }}Title{{ endblock }}
+
+{{ block content }}
+
+You are competing against 5 other firms who are selecting price, quality. You must choose price, quality, and signals that maximize your profits, but you are competing against others! After each round you will be told what the other firms have chosen and you can update your product in the next round. The goal is to be the highest profiting firm in each round!
+
+Just like in reality consumers don't want to high prices on low quality goods. Plenty of consumers will choose lower quality over high quality if the price is right! You must compete on both quality and price! If you choose low quality in round 1, you can choose high quality in round 2 and vice versa. You are not stuck with your choices. 
+
+Cash payments are rewarded to the two highest profiting firms in each round. If you fall out of the top two firms, you can still win rewards in the following rounds. 
+
+This games consists of 3 Practice Rounds and 7 actual rounds that will consist of cash prizes. This is a practice round, but the regular rounds will look identical to the practice rounds.
+
+This game goes for {{C.NUM_ROUNDS}}. This is a practice round and is round {{subsession.round_number}}. 
+{{ next_button }}
+
+{{ endblock }}

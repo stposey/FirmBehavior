@@ -14,15 +14,7 @@
     </tr>
     <tr>
         <th>Your Profit</th>
-        <td>{{ player.profit}}</td>
-    </tr>
-    <tr>
-        <th>Your informal signal</th>
-        <td>{{ player.informalSignal }}</td>
-    </tr>
-    <tr>
-        <th>Your Formal Signal</th>
-        <td>{{ player.formalSignal }}</td>
+        <td>{{ player.profit }}</td>
     </tr>
     <tr>
         <th>Your Quality</th>
@@ -57,38 +49,23 @@
             <mark>Firm 5</mark> {{group.quality5}}</td>
     </tr>
     <tr>
-        <th>Group Informal Signal</th>
-        <td><mark>Firm 1</mark>{{ group.IS1 }}
-            <mark>Firm 2</mark> {{ group.IS2 }}
-            <mark>Firm 3</mark> {{ group.IS3 }}
-            <mark>Firm 4</mark> {{group.IS4}}
-            <mark>Firm 5</mark> {{group.IS5}}</td>
-    </tr>
-    <tr>
-        <th>Group Formal Signal</th>
-        <td><mark>Firm 1</mark>{{ group.FS1 }}
-            <mark>Firm 2</mark> {{ group.FS2 }}
-            <mark>Firm 3</mark> {{ group.FS3 }}
-            <mark>Firm 4</mark> {{group.FS4}}
-            <mark>Firm 5</mark> {{group.FS5}}</td>
-    </tr>
-    <tr>
         <th>Winners and Prizes</th>
         <td><mark>First </mark>{{ group.winning_profit }}
             <mark>Second</mark> {{ group.second_profit }}
         </td>
     </tr>
     <tr>
-        <th>Your Prize Winnings for this Round</th>
+        <th>What you would have earned if it wasn't a practice round</th>
         <td><mark>Prize </mark>{{ player.payoff }}
         </td>
     </tr>
 
 </table>
   
-In the following round you can update your quality, signals, and price to increase your profits! Use the information above on other firm choices to update your product and improve profits!
+  
+In the following round you can update your quality and price to increase your profits! Use the information above on other firm choices to update your product and improve profits!
 {{ next_button }}
 
-
+{{ include C.INSTRUCTIONS_TEMPLATE }}
 
 {{ endblock }}

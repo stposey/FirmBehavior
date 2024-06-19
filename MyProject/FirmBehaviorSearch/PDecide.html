@@ -1,5 +1,5 @@
 {{ extends 'global/Page.html' }}
-{{ block title }}Set Your Quality{{ endblock }}
+{{ block title }}Set Your Quality {{ endblock }}
 
 {{ block content }}
 
@@ -17,7 +17,8 @@
 
 
 <p id="cost-display">Based on your choices, your cost to produce 1 product is: $0</p>
-
+    
+    
 {{ next_button }}
 
 <script>
@@ -49,7 +50,6 @@
     // Initial check in case the page loads with values already set
     checkQualityAndUpdateFormalSignal();
 </script>
-
 
 
 {{ endblock }}

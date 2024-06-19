@@ -1,5 +1,5 @@
 {{ extends 'global/Page.html' }}
-{{ block title }}Introduction{{ endblock }}
+{{ block title }}Title{{ endblock }}
 
 {{ block content }}
 
@@ -9,8 +9,9 @@ Just like in reality consumers don't want to high prices on low quality goods. P
 
 Cash payments are rewarded to the two highest profiting firms in each round. If you fall out of the top two firms, you can still win rewards in the following rounds. 
 
-This game goes for {{C.NUM_ROUNDS}}. This is round {{subsession.round_number}}. This is not a practice round and you can win cash for being the highest or second highest profitable firm.
+This games consists of 3 Practice Rounds and 7 actual rounds that will consist of cash prizes. This is a practice round, but the regular rounds will look identical to the practice rounds.
 
+This game goes for {{C.NUM_ROUNDS}}. This is a practice round and is round {{subsession.round_number}}. 
 {{ next_button }}
 
 {{ endblock }}

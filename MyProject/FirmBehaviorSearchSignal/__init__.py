@@ -6,7 +6,7 @@ doc = ''
 class C(BaseConstants):
     NAME_IN_URL = 'FirmBehaviorSearchSignal'
     PLAYERS_PER_GROUP = 5
-    NUM_ROUNDS = 5
+    NUM_ROUNDS = 10
     MAXIMUM_PRICE = cu(100)
     MAXIMUM_QUALITY = 100
     INFORMAL_SIGNAL = 100
@@ -41,6 +41,8 @@ class Group(BaseGroup):
     FS3 = models.FloatField()
     FS4 = models.FloatField()
     FS5 = models.FloatField()
+    winning_profit = models.FloatField(initial=0)
+    second_profit = models.FloatField(initial=0)
 def set_payoffs(group: Group):
     import pandas as pd
     import numpy as np
@@ -213,6 +215,25 @@ def set_payoffs(group: Group):
         p.profit=p.profit.item()
     
     
+    group.winning_profit = max([p.profit for p in players])
+    firstPlace = [p for p in players if p.price == group.winning_profit]
+    group.second_profit=np.argpartition([p.profit for p in players], -2)[-2]
+    secondPlace = [p for p in players if p.price== group.second_profit]
+    for p in players:
+        if p == firstPlace:
+            p.first = 1
+            p.payoff = 5
+        else:
+            p.first = 0
+            p.payoff = 0
+        if p == secondPlace:
+            p.second = 1
+            p.payoff = 2
+    for p in players:
+        p.first=p.first.item()
+        p.second=p.second.item()
+    group.winning_profit = group.winning_profit.item()
+    group.second_profit = group.second_profit.item()
 class Player(BasePlayer):
     informalSignal = models.FloatField(initial=0, label='Please invest in your informal signals ')
     quality = models.FloatField(initial=0, label='Please enter the quality level from 0 to 100 for your product', max=C.MAXIMUM_QUALITY)
@@ -221,21 +242,84 @@ class Player(BasePlayer):
     price = models.FloatField(initial=0, label='Please enter an amount as your price')
     formalSignal = models.FloatField(blank=True, initial=0, label='Choose whether to apply or not apply formal signals ', max=1, min=0)
     Cost = models.FloatField(initial=0)
+    first = models.FloatField(initial=0, max=1)
+    second = models.FloatField(initial=0, max=1)
 def cost_function(player: Player):
     player.Cost=player.quality+.5*player.informalSignal+50*player.formalSignal
+class PIntroduction(Page):
+    form_model = 'player'
+    @staticmethod
+    def is_displayed(player: Player):
+        session = player.session
+        subsession = player.subsession
+        if subsession.round_number<4:
+            return True
+class PDecide(Page):
+    form_model = 'player'
+    form_fields = ['quality', 'informalSignal', 'formalSignal']
+    @staticmethod
+    def is_displayed(player: Player):
+        session = player.session
+        subsession = player.subsession
+        if subsession.round_number<4:
+            return True
+    @staticmethod
+    def before_next_page(player: Player, timeout_happened):
+        cost_function(player)
+class PPrice(Page):
+    form_model = 'player'
+    form_fields = ['price']
+    @staticmethod
+    def is_displayed(player: Player):
+        session = player.session
+        subsession = player.subsession
+        if subsession.round_number<4:
+            return True
+class PResult(Page):
+    form_model = 'player'
+    @staticmethod
+    def is_displayed(player: Player):
+        session = player.session
+        subsession = player.subsession
+        if subsession.round_number<4:
+            return True
 class Introduction(Page):
     form_model = 'player'
+    @staticmethod
+    def is_displayed(player: Player):
+        session = player.session
+        subsession = player.subsession
+        if subsession.round_number>3:
+            return True
 class Decide(Page):
     form_model = 'player'
     form_fields = ['informalSignal', 'quality', 'formalSignal']
+    @staticmethod
+    def is_displayed(player: Player):
+        session = player.session
+        subsession = player.subsession
+        if subsession.round_number>3:
+            return True
     @staticmethod
     def before_next_page(player: Player, timeout_happened):
         cost_function(player)
 class Price(Page):
     form_model = 'player'
     form_fields = ['price']
+    @staticmethod
+    def is_displayed(player: Player):
+        session = player.session
+        subsession = player.subsession
+        if subsession.round_number>3:
+            return True
 class ResultsWaitPage(WaitPage):
     after_all_players_arrive = set_payoffs
 class Results(Page):
     form_model = 'player'
-page_sequence = [Introduction, Decide, Price, ResultsWaitPage, Results]
+    @staticmethod
+    def is_displayed(player: Player):
+        session = player.session
+        subsession = player.subsession
+        if subsession.round_number>3:
+            return True
+page_sequence = [PIntroduction, PDecide, PPrice, PResult, Introduction, Decide, Price, ResultsWaitPage, Results]
