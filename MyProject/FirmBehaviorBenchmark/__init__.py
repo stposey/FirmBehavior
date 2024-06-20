@@ -132,9 +132,9 @@ def set_payoffs(group: Group):
         p.Demand=p.Demand.item()
         p.profit=p.profit.item()
     
-    winning_profit = max(np.array([group.profit1,group.profit2,group.profit3,group.profit4,group.profit5]))
+    winning_profit = max(np.array([playersDF.profit[1],playersDF.profit[2],playersDF.profit[3],playersDF.profit[4],playersDF.profit[5]]))
     firstPlace = [p for p in players if p.profit == winning_profit]
-    second_profit=np.argpartition(np.array([group.profit1,group.profit2,group.profit3,group.profit4,group.profit5]), -2)[-2]
+    second_profit=np.argpartition(np.array([playersDF.profit[1],playersDF.profit[2],playersDF.profit[3],playersDF.profit[4],playersDF.profit[5]]), -2)[-2]
     secondPlace = [p for p in players if p.profit== second_profit]
     for p in players:
         if p == firstPlace:
