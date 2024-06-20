@@ -151,8 +151,7 @@ def set_payoffs(group: Group):
         p.second=np.float(p.second)
         p.first=p.first.item()
         p.second=p.second.item()
-    group.winningProfit = group.winningProfit.item()
-    group.secondProfit = group.secondProfit.item()
+
 class Player(BasePlayer):
     quality = models.FloatField(initial=0, label='Please enter the quality level from 0 to 100 for your product', max=C.MAXIMUM_QUALITY)
     profit = models.FloatField()
