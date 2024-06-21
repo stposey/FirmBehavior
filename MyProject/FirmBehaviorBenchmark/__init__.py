@@ -130,7 +130,30 @@ def set_payoffs(group: Group):
         p.Demand=p.Demand.item()
         p.profit=p.profit.item()
     
+winning_profit = max(playersDF.profit)
+firstPlace = [p for p in players if p.profit == winning_profit]
+second_profit=np.argpartition(np.array(playersDF.profit), -2)[-2]
+secondPlace = [p for p in players if p.profit== second_profit]
+for p in players:
+    if p == firstPlace:
+        p.first = 1
+        p.payoff = 5
+    else:
+        p.first = 0
+        p.payoff = 0
+    if p == secondPlace:
+        p.second = 1
+        p.payoff = 2
+    else:
+        p.second = 0
 
+for p in players:
+    p.first=np.float64(p.first)
+    p.second=np.float64(p.second)
+    p.first=p.first.item()
+    p.second=p.second.item()
+group.winning_profit = winning_profit.item()
+group.second_profit = second_profit.item()
 
 class Player(BasePlayer):
     quality = models.FloatField(initial=0, label='Please enter the quality level from 0 to 100 for your product', max=C.MAXIMUM_QUALITY)
