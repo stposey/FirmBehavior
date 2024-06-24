@@ -6,7 +6,7 @@ doc = ''
 class C(BaseConstants):
     NAME_IN_URL = 'FirmBehaviorSignal'
     PLAYERS_PER_GROUP = 5
-    NUM_ROUNDS = 10
+    NUM_ROUNDS = 50
     MAXIMUM_PRICE = cu(100)
     MAXIMUM_QUALITY = 100
     INFORMAL_SIGNAL = 100
@@ -72,14 +72,198 @@ def set_payoffs(group: Group):
     playerRank['QualityRank']=playerList
     playerRank.index=playerRank['QualityRank']
     
+    #Demand for Start at highest Quality:
+    if playerRank.perceivedQuality[5]==playerRank.perceivedQuality[4]:
+        if playerRank.price[5]>playerRank.price[4]:
+            demand5=0
+        if playerRank.perceivedQuality[5]==playerRank.perceivedQuality[3]:
+            if playerRank.price[5]>playerRank.price[3]:
+                demand5=0
+            if playerRank.perceivedQuality[5]==playerRank.perceivedQuality[2]:
+                if playerRank.price[5]>playerRank.price[2]:
+                    demand5=0
+                if playerRank.perceivedQuality[5]==playerRank.perceivedQuality[1]:
+                    if playerRank.price[5]>playerRank.price[1]:
+                        demand5=0
+                    else: 
+                        demand5=playerRank.price[5]/playerRank.perceivedQuality[5] - (playerRank.price[1]/playerRank.perceivedQuality[1])
+                else:demand5=playerRank.price[5]/playerRank.quality[5]-(playerRank.price[5]-playerRank.price[1])/(playerRank.perceivedQuality[5]-playerRank.perceivedQuality[1])    
+            else:
+                demand5=playerRank.price[5]/playerRank.quality[5]-(playerRank.price[5]-playerRank.price[2])/(playerRank.perceivedQuality[5]-playerRank.perceivedQuality[2])
+        else:
+             demand5=playerRank.price[5]/playerRank.quality[5]-(playerRank.price[5]-playerRank.price[3])/(playerRank.perceivedQuality[5]-playerRank.perceivedQuality[3])
+    else:
+        demand5=playerRank.price[5]/playerRank.quality[5]-(playerRank.price[5]-playerRank.price[4])/(playerRank.perceivedQuality[5]-playerRank.perceivedQuality[4])
     
-    demand1=((playerRank.price[2]-playerRank.price[1])/(playerRank.perceivedQuality[2]-playerRank.perceivedQuality[1]))-(playerRank.price[1]/playerRank.perceivedQuality[1])
+    #Demand for 4th highest PQ:                                                                                  
+    if playerRank.perceivedQuality[4]==playerRank.perceivedQuality[5]:
+        #Demand for 4th if quality is same for 5 and 4
+        if playerRank.price[4]>playerRank.price[5]:
+            demand4=0
+        else:
+            if playerRank.perceivedQuality[4]==playerRank.perceivedQuality[3]:
+                if playerRank.price[4]>playerRank.price[3]:
+                    demand4=0
+                if playerRank.perceivedQuality[4]==playerRank.perceivedQuality[2]:
+                    if playerRank.price[4]>playerRank.price[2]:
+                        demand4=0
+                    if playerRank.perceivedQuality[4]==playerRank.perceivedQuality[1]:
+                        if playerRank.price[4]>playerRank.price[1]:
+                            demand4=0
+                        else: 
+                            demand4=playerRank.price[4]/playerRank.perceivedQuality[4] - (playerRank.price[1]/playerRank.perceivedQuality[1])
+                    else:
+                        demand4=playerRank.price[4]/playerRank.quality[4]-(playerRank.price[4]-playerRank.price[1])/(playerRank.perceivedQuality[4]-playerRank.perceivedQuality[1])    
+                else:
+                    demand4=playerRank.price[4]/playerRank.quality[4]-(playerRank.price[4]-playerRank.price[2])/(playerRank.perceivedQuality[4]-playerRank.perceivedQuality[2])
+            else:
+                 demand4=playerRank.price[4]/playerRank.quality[4]-(playerRank.price[4]-playerRank.price[3])/(playerRank.perceivedQuality[4]-playerRank.perceivedQuality[3])
+    else:
+        if playerRank.perceivedQuality[4]==playerRank.perceivedQuality[3]:
+                if playerRank.price[4]>playerRank.price[3]:
+                    demand4=0
+                if playerRank.perceivedQuality[4]==playerRank.perceivedQuality[2]:
+                    if playerRank.price[4]>playerRank.price[2]:
+                        demand4=0
+                    if playerRank.perceivedQuality[4]==playerRank.perceivedQuality[1]:
+                        if playerRank.price[4]>playerRank.price[1]:
+                            demand4=0
+                        else: 
+                            demand4=(playerRank.price[5]-playerRank.price[4])/(playerRank.perceivedQuality[5]-playerRank.perceivedQuality[4]) - (playerRank.price[1]/playerRank.perceivedQuality[1])
+                    else:
+                        demand4=(playerRank.price[5]-playerRank.price[4])/(playerRank.perceivedQuality[5]-playerRank.perceivedQuality[4])-(playerRank.price[4]-playerRank.price[1])/(playerRank.perceivedQuality[4]-playerRank.perceivedQuality[1])    
+                else:
+                    demand4=(playerRank.price[5]-playerRank.price[4])/(playerRank.perceivedQuality[5]-playerRank.perceivedQuality[4])-(playerRank.price[4]-playerRank.price[2])/(playerRank.perceivedQuality[4]-playerRank.perceivedQuality[2])
+        else:
+                 demand4=((playerRank.price[5]-playerRank.price[4])/(playerRank.perceivedQuality[5]-playerRank.perceivedQuality[4]))-((playerRank.price[4]-playerRank.price[3])/(playerRank.perceivedQuality[4]-playerRank.perceivedQuality[3]))
     
-    demand2=((playerRank.price[3]-playerRank.price[2])/(playerRank.perceivedQuality[3]-playerRank.perceivedQuality[2]))-(playerRank.price[2]-playerRank.price[1])/(playerRank.perceivedQuality[2]-playerRank.perceivedQuality[1])
+    #Demand for 3rd highest PQ: 
+    if playerRank.perceivedQuality[3]==playerRank.perceivedQuality[4]:
+        if playerRank.price[3]>playerRank.price[4]:
+            demand3=0
+        #Quality for 3=4, check 5 as well
+        if playerRank.perceivedQuality[3]==playerRank.perceivedQuality[5]:
+            #Quality for 3rd  is same for 5 and 4
+            if playerRank.price[3]>playerRank.price[5]:
+                demand3=0
+            else:
+                if playerRank.perceivedQuality[3]==playerRank.perceivedQuality[2]:
+                    if playerRank.price[3]>playerRank.price[2]:
+                        demand3=0
+                    if playerRank.perceivedQuality[3]==playerRank.perceivedQuality[1]:
+                        if playerRank.price[3]>playerRank.price[1]:
+                            demand3=0
     
-    demand3=((playerRank.price[4]-playerRank.price[3])/(playerRank.perceivedQuality[4]-playerRank.perceivedQuality[3]))-(playerRank.price[3]-playerRank.price[2])/(playerRank.perceivedQuality[3]-playerRank.perceivedQuality[2])
-    demand4=((playerRank.price[5]-playerRank.price[4])/(playerRank.perceivedQuality[5]-playerRank.perceivedQuality[4]))-(playerRank.price[4]-playerRank.price[3])/(playerRank.perceivedQuality[4]-playerRank.perceivedQuality[3])
-    demand5=1-(playerRank.price[5]-playerRank.price[4])/(playerRank.perceivedQuality[5]-playerRank.perceivedQuality[4])
+                        else: 
+                            demand3=playerRank.price[3]/playerRank.perceivedQuality[3] - (playerRank.price[1]/playerRank.perceivedQuality[1])
+                    else:
+                        demand3=playerRank.price[3]/playerRank.quality[3]-(playerRank.price[3]-playerRank.price[1])/(playerRank.perceivedQuality[4]-playerRank.perceivedQuality[1])    
+                else:
+                    demand3=playerRank.price[3]/playerRank.quality[3]-(playerRank.price[3]-playerRank.price[2])/(playerRank.perceivedQuality[4]-playerRank.perceivedQuality[2])
+        else: #3 & 5 are different
+            if playerRank.perceivedQuality[3]==playerRank.perceivedQuality[2]:
+                    if playerRank.price[3]>playerRank.price[2]:
+                        demand3=0
+                    if playerRank.perceivedQuality[3]==playerRank.perceivedQuality[1]:
+                        if playerRank.price[3]>playerRank.price[1]:
+                            demand3=0
+                        else:
+                            demand3=(playerRank.price[5]-playerRank.price[3])/(playerRank.perceivedQuality[5]-playerRank.perceivedQuality[3])-(playerRank.price[1])/(playerRank.perceivedQuality[1])    
+                    else:
+                        demand3=(playerRank.price[5]-playerRank.price[3])/(playerRank.perceivedQuality[5]-playerRank.perceivedQuality[3])-(playerRank.price[3]-playerRank.price[1])/(playerRank.perceivedQuality[3]-playerRank.perceivedQuality[1])
+            else:
+                     demand3=((playerRank.price[5]-playerRank.price[3])/(playerRank.perceivedQuality[5]-playerRank.perceivedQuality[3]))-((playerRank.price[3]-playerRank.price[2])/(playerRank.perceivedQuality[3]-playerRank.perceivedQuality[2]))
+    else:
+        if playerRank.perceivedQuality[3]==playerRank.perceivedQuality[2]:
+                    if playerRank.price[3]>playerRank.price[2]:
+                        demand3=0
+                    if playerRank.perceivedQuality[3]==playerRank.perceivedQuality[1]:
+                        if playerRank.price[3]>playerRank.price[1]:
+                            demand3=0
+                        else:
+                            demand3=(playerRank.price[4]-playerRank.price[3])/(playerRank.perceivedQuality[4]-playerRank.perceivedQuality[3])-(playerRank.price[1])/(playerRank.perceivedQuality[1])    
+                    else:
+                        demand3=(playerRank.price[4]-playerRank.price[3])/(playerRank.perceivedQuality[4]-playerRank.perceivedQuality[3])-(playerRank.price[3]-playerRank.price[1])/(playerRank.perceivedQuality[3]-playerRank.perceivedQuality[1])
+        else:
+                demand3=((playerRank.price[4]-playerRank.price[3])/(playerRank.perceivedQuality[4]-playerRank.perceivedQuality[3]))-((playerRank.price[3]-playerRank.price[2])/(playerRank.perceivedQuality[3]-playerRank.perceivedQuality[2]))  
+    
+    #Demand for 2nd highest PQ: 
+    #Check if equal to lowest:
+    if playerRank.perceivedQuality[2]==playerRank.perceivedQuality[1]:
+        if playerRank.price[2]>playerRank.price[1]:
+            demand2=0
+    
+        if playerRank.perceivedQuality[2]==playerRank.perceivedQuality[3]:
+            if playerRank.price[2]>playerRank.price[3]:
+                demand2=0
+    
+            if playerRank.perceivedQuality[2]==playerRank.perceivedQuality[4]:
+                if playerRank.price[2]>playerRank.price[4]:
+                    demand2=0
+    
+                if playerRank.perceivedQuality[2]==playerRank.perceivedQuality[5]:
+                    if playerRank.price[2]>playerRank.price[5]:
+                        demand2=0
+    
+                    else:
+                        demand2=playerRank.price[2]/playerRank.perceivedQuality[2]-(playerRank.price[1]/playerRank.perceivedQuality[1])
+                else:
+                    demand2=(playerRank.price[5]-playerRank.price[2])/(playerRank.perceivedQuality[5]-playerRank.perceivedQuality[2])-(playerRank.price[1]/playerRank.perceivedQuality[1])
+            else: 
+                demand2=(playerRank.price[4]-playerRank.price[2])/(playerRank.perceivedQuality[4]-playerRank.perceivedQuality[2])-(playerRank.price[1]/playerRank.perceivedQuality[1])
+        else: 
+            demand2=(playerRank.price[3]-playerRank.price[2])/(playerRank.perceivedQuality[3]-playerRank.perceivedQuality[2])-(playerRank.price[1]/playerRank.perceivedQuality[1])
+    else: #2nd Highest is not equal to lowest
+        if playerRank.perceivedQuality[2]==playerRank.perceivedQuality[3]:
+            if playerRank.price[2]>playerRank.price[3]:
+                demand2=0
+    
+            if playerRank.perceivedQuality[2]==playerRank.perceivedQuality[4]:
+                if playerRank.price[2]>playerRank.price[4]:
+                    demand2=0
+    
+                if playerRank.perceivedQuality[2]==playerRank.perceivedQuality[5]:
+                    if playerRank.price[2]>playerRank.price[5]:
+                        demand2=0
+    
+                    else:
+                        demand2=playerRank.price[2]/playerRank.perceivedQuality[2]-(playerRank.price[2]-playerRank.price[1])/(playerRank.perceivedQuality[1]-playerRank.perceivedQuality[1])
+                else:
+                    demand2=(playerRank.price[5]-playerRank.price[2])/(playerRank.perceivedQuality[5]-playerRank.perceivedQuality[2])-(playerRank.price[2]-playerRank.price[1])/(playerRank.perceivedQuality[2]-playerRank.perceivedQuality[1])
+            else: 
+                demand2=(playerRank.price[4]-playerRank.price[2])/(playerRank.perceivedQuality[4]-playerRank.perceivedQuality[2])-(playerRank.price[2]-playerRank.price[1])/(playerRank.perceivedQuality[2]-playerRank.perceivedQuality[1])
+        else: 
+            demand2=(playerRank.price[3]-playerRank.price[2])/(playerRank.perceivedQuality[3]-playerRank.perceivedQuality[2])-(playerRank.price[2]-playerRank.price[1])/(playerRank.perceivedQuality[2]-playerRank.perceivedQuality[1])
+    
+    #Lowest:
+    if playerRank.perceivedQuality[1]==playerRank.perceivedQuality[2]:
+        if playerRank.price[1]>playerRank.price[2]:
+            demand1=0
+    
+        if playerRank.perceivedQuality[1]==playerRank.perceivedQuality[3]:
+            if playerRank.price[1]>playerRank.price[3]:
+                demand1=0
+    
+            if playerRank.perceivedQuality[1]==playerRank.perceivedQuality[4]:
+                if playerRank.price[1]>playerRank.price[4]:
+                    demand1=0
+    
+                if playerRank.perceivedQuality[1]==playerRank.perceivedQuality[5]:
+                    if playerRank.price[1]>playerRank.price[5]:
+                        demand1=0
+                    else:
+                        demand1=(playerRank.price[5]/playerRank.perceivedQuality[5])-(playerRank.price[1]/playerRank.perceivedQuality[1])
+                else:
+                    demand1=(playerRank.price[5]-playerRank.price[1])/(playerRank.perceivedQuality[5]-playerRank.perceivedQuality[1])-(playerRank.price[1]/playerRank.perceivedQuality[1])
+            else:
+                demand1=(playerRank.price[4]-playerRank.price[1])/(playerRank.perceivedQuality[4]-playerRank.perceivedQuality[1])-(playerRank.price[1]/playerRank.perceivedQuality[1])
+        else:
+            demand1=(playerRank.price[3]-playerRank.price[1])/(playerRank.perceivedQuality[3]-playerRank.perceivedQuality[1])-(playerRank.price[1]/playerRank.perceivedQuality[1])
+    else:
+        demand1=(playerRank.price[2]-playerRank.price[1])/(playerRank.perceivedQuality[2]-playerRank.perceivedQuality[1])-(playerRank.price[1]/playerRank.perceivedQuality[1])
+    
+    
+    
     if demand1<0:
         demand1=0
     if demand2<0:
@@ -171,10 +355,10 @@ def set_payoffs(group: Group):
     
     
     
-    group.winning_profit = np.float(max([p.profit for p in players]))
-    firstPlace = [p for p in players if p.price == group.winning_profit]
-    group.second_profit=np.float(np.argpartition([p.profit for p in players], -2)[-2])
-    secondPlace = [p for p in players if p.price== group.second_profit]
+    winning_profit = max(playersDF.profit)
+    firstPlace = [p for p in players if p.profit == winning_profit]
+    second_profit=np.argpartition(np.array(playersDF.profit), -2)[-2]
+    secondPlace = [p for p in players if p.profit== second_profit]
     for p in players:
         if p == firstPlace:
             p.first = 1
@@ -184,15 +368,16 @@ def set_payoffs(group: Group):
             p.payoff = 0
         if p == secondPlace:
             p.second = 1
-            p.payoff = 2    
+            p.payoff = 2
+        else:
+            p.second = 0
     
     for p in players:
-        p.first=np.float(p.first)
-        p.second=np.float(p.second)
+        p.first=np.float64(p.first)
+        p.second=np.float64(p.second)
         p.first=p.first.item()
         p.second=p.second.item()
-    group.winning_profit = group.winning_profit.item()
-    group.second_profit = group.second_profit.item()
+    
 class Player(BasePlayer):
     informalSignal = models.FloatField(initial=0, label='Please invest in your informal signals ')
     quality = models.FloatField(initial=0, label='Please enter the quality level from 0 to 100 for your product', max=C.MAXIMUM_QUALITY)
@@ -209,88 +394,19 @@ def cost_function(player: Player):
         player.formalSignal=0
     
     player.Cost=player.quality+.5*player.informalSignal+10*player.formalSignal
-class PIntroduction(Page):
-    form_model = 'player'
-    @staticmethod
-    def is_displayed(player: Player):
-        session = player.session
-        subsession = player.subsession
-        if subsession.round_number<4:
-            return True
-class PDecide(Page):
-    form_model = 'player'
-    form_fields = ['quality', 'informalSignal', 'formalSignal']
-    @staticmethod
-    def is_displayed(player: Player):
-        session = player.session
-        subsession = player.subsession
-        if subsession.round_number<4:
-            return True
-    @staticmethod
-    def before_next_page(player: Player, timeout_happened):
-        cost_function(player)
-class PPrice(Page):
-    form_model = 'player'
-    form_fields = ['price']
-    @staticmethod
-    def is_displayed(player: Player):
-        session = player.session
-        subsession = player.subsession
-        if subsession.round_number<4:
-            return True
-class PResultsWaitPage(WaitPage):
-    after_all_players_arrive = set_payoffs
-    @staticmethod
-    def is_displayed(player: Player):
-        session = player.session
-        subsession = player.subsession
-        if subsession.round_number<4:
-            return True
-class PResult(Page):
-    form_model = 'player'
-    @staticmethod
-    def is_displayed(player: Player):
-        session = player.session
-        subsession = player.subsession
-        if subsession.round_number<4:
-            return True
 class Introduction(Page):
     form_model = 'player'
-    @staticmethod
-    def is_displayed(player: Player):
-        session = player.session
-        subsession = player.subsession
-        if subsession.round_number>3:
-            return True
 class Decide(Page):
     form_model = 'player'
     form_fields = ['quality', 'informalSignal', 'formalSignal']
-    @staticmethod
-    def is_displayed(player: Player):
-        session = player.session
-        subsession = player.subsession
-        if subsession.round_number>3:
-            return True
     @staticmethod
     def before_next_page(player: Player, timeout_happened):
         cost_function(player)
 class Price(Page):
     form_model = 'player'
     form_fields = ['price']
-    @staticmethod
-    def is_displayed(player: Player):
-        session = player.session
-        subsession = player.subsession
-        if subsession.round_number>3:
-            return True
 class ResultsWaitPage(WaitPage):
     after_all_players_arrive = set_payoffs
 class Results(Page):
     form_model = 'player'
-    @staticmethod
-    def is_displayed(player: Player):
-        session = player.session
-        subsession = player.subsession
-        if subsession.round_number>3:
-            return True
-page_sequence = [PIntroduction, PDecide, PPrice, PResultsWaitPage, PResult, Introduction, Decide, Price, ResultsWaitPage, Results]
+page_sequence = [Introduction, Decide, Price, ResultsWaitPage, Results]
