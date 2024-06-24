@@ -334,16 +334,12 @@ def set_payoffs(group: Group):
     secondPlace =  playersDF.playerid[2]
     for p in players:
         if p == firstPlace:
-            p.first = 1
             p.payoff = 5
         else:
-            p.first = 0
             p.payoff = 0
         if p == secondPlace:
-            p.second = 1
             p.payoff = 2
-        else:
-            p.second = 0
+
     
 
     group.winning_profit=winning_profit.item()
@@ -356,8 +352,7 @@ class Player(BasePlayer):
     Demand = models.FloatField(initial=0)
     price = models.FloatField(initial=0, label='Please enter an amount as your price')
     Cost = models.FloatField(initial=0)
-    first = models.FloatField(initial=0, max=1)
-    second = models.FloatField(initial=0, max=1)
+
 def cost_function(player: Player):
     player.Cost=player.quality
 class Introduction(Page):
