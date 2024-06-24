@@ -345,9 +345,7 @@ def set_payoffs(group: Group):
         else:
             p.second = 0
     
-    for p in players:
-        p.first=p.first.item()
-        p.second=p.second.item()
+
     group.winning_profit=winning_profit.item()
     group.second_profit=second_profit.item()
 
