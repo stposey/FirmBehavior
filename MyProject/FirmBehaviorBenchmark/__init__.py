@@ -31,8 +31,7 @@ class Group(BaseGroup):
     profit4 = models.FloatField(initial=0)
     profit5 = models.FloatField(initial=0)
     profit1 = models.FloatField(initial=0)
-    winning_profit = models.StringField()
-    second_profit = models.StringField()
+
 def set_payoffs(group: Group):
     import pandas as pd
     import numpy as np
@@ -351,8 +350,7 @@ def set_payoffs(group: Group):
         p.second=p.second.item()
         p.Demand=p.Demand.item()
         p.profit=p.profit.item()
-    group.winning_profit=winning_profit.item()
-    group.second_profit=second_profit.item()
+
 class Player(BasePlayer):
     quality = models.FloatField(initial=0, label='Please enter the quality level from 0 to 100 for your product', max=C.MAXIMUM_QUALITY)
     profit = models.FloatField()
