@@ -31,8 +31,8 @@ class Group(BaseGroup):
     profit4 = models.FloatField(initial=0)
     profit5 = models.FloatField(initial=0)
     profit1 = models.FloatField(initial=0)
-    winning_profit = models.FloatField(initial=0)
-    second_profit = models.FloatField(initial=0)
+    winning_profit = models.StringField()
+    second_profit = models.StringField()
 def set_payoffs(group: Group):
     import pandas as pd
     import numpy as np
