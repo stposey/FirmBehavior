@@ -346,7 +346,7 @@ def set_payoffs(group: Group):
     group.second_profit=second_profit.item()
     for p in players:
         p.profit=p.profit.item()
-        p.demand=p.demand.item()
+        p.Demand=p.Demand.item()
 class Player(BasePlayer):
     quality = models.FloatField(initial=0, label='Please enter the quality level from 0 to 100 for your product', max=C.MAXIMUM_QUALITY)
     profit = models.FloatField()
