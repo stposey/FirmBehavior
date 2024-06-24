@@ -324,17 +324,12 @@ def set_payoffs(group: Group):
     group.quality3=group.quality3.item()
     group.quality4=group.quality4.item()
     group.quality5=group.quality5.item()
+      
     
     
-    for p in players:
-        p.Demand=p.Demand.item()
-        p.profit=p.profit.item()
-    
-    
-    
-    winning_profit = max(playersDF.profit)
+    winningProfit = max(playersDF.profit)
     firstPlace = [p for p in players if p.profit == winning_profit]
-    second_profit=np.argpartition(np.array(playersDF.profit), -2)[-2]
+    secondProfit=np.argpartition(np.array(playersDF.profit), -2)[-2]
     secondPlace = [p for p in players if p.profit== second_profit]
     for p in players:
         if p == firstPlace:
@@ -354,6 +349,8 @@ def set_payoffs(group: Group):
         p.second=np.float64(p.second)
         p.first=p.first.item()
         p.second=p.second.item()
+        p.Demand=p.Demand.item()
+        p.profit=p.profit.item()
     group.winning_profit=winning_profit.item()
     group.second_profit=second_profit.item()
 class Player(BasePlayer):
