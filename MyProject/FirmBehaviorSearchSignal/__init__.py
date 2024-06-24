@@ -237,7 +237,8 @@ def set_payoffs(group: Group):
         p.second=np.float64(p.second)
         p.first=p.first.item()
         p.second=p.second.item()
-    
+    group.winning_profit=winning_profit.item()
+    group.second_profit=second_profit.item()
 class Player(BasePlayer):
     informalSignal = models.FloatField(initial=0, label='Please invest in your informal signals ')
     quality = models.FloatField(initial=0, label='Please enter the quality level from 0 to 100 for your product', max=C.MAXIMUM_QUALITY)
