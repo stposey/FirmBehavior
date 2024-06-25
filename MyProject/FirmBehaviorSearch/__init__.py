@@ -176,7 +176,7 @@ def set_payoffs(group: Group):
         p.Demand=p.Demand.item()
         p.profit=p.profit.item()
     
-profitDF= playerDF.sort_values(by = ['profit'])    
+profitDF = playerDF.sort_values(by = ['profit'])    
 
 winning_profit = profitDF.profit[1]
 second_profit=profitDF.profit[2]
