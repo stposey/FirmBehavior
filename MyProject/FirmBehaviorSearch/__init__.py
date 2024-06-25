@@ -176,18 +176,18 @@ def set_payoffs(group: Group):
         p.Demand=p.Demand.item()
         p.profit=p.profit.item()
     
-profitDF = playerDF.sort_values(by = ['profit'])    
-
-winning_profit = profitDF.profit[1]
-second_profit=profitDF.profit[2]
-for p in players:
-    if p.profit == winning_profit:
-        p.payoff = 5
-    else:
-        p.payoff = 0
-    if p.profit == second_profit:
-        p.payoff = 2
-            
+    profitDF = playerDF.sort_values(by = ['profit'])    
+    
+    winning_profit = profitDF.profit[1]
+    second_profit=profitDF.profit[2]
+    for p in players:
+        if p.profit == winning_profit:
+            p.payoff = 5
+        else:
+            p.payoff = 0
+        if p.profit == second_profit:
+            p.payoff = 2
+                
 class Player(BasePlayer):
     quality = models.FloatField(initial=0, label='Please enter the quality level from 0 to 100 for your product', max=C.MAXIMUM_QUALITY)
     profit = models.FloatField()
