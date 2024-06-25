@@ -355,31 +355,17 @@ def set_payoffs(group: Group):
     
     
     
-    winning_profit = max(playersDF.profit)
-    firstPlace = [p for p in players if p.profit == winning_profit]
-    second_profit=np.argpartition(np.array(playersDF.profit), -2)[-2]
-    secondPlace = [p for p in players if p.profit== second_profit]
+    winning_profit = profitDF.profit[1]
+    firstPlace = profitDF.playerid[1]
+    second_profit=profitDF.profit[2]
+    secondPlace =  profitDF.playerid[2]
     for p in players:
-        if p == firstPlace:
-            p.first = 1
+        if p.profit == winning_profit:
             p.payoff = 5
         else:
-            p.first = 0
             p.payoff = 0
-        if p == secondPlace:
-            p.second = 1
+        if p.profit == second_profit:
             p.payoff = 2
-        else:
-            p.second = 0
-    
-    for p in players:
-        p.first=np.float64(p.first)
-        p.second=np.float64(p.second)
-        p.first=p.first.item()
-        p.second=p.second.item()
-
-    group.winning_profit=winning_profit.item()
-    group.second_profit=second_profit.item()
 
 class Player(BasePlayer):
     informalSignal = models.FloatField(initial=0, label='Please invest in your informal signals ')
