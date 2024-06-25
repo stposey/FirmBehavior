@@ -6,7 +6,7 @@ doc = ''
 class C(BaseConstants):
     NAME_IN_URL = 'FirmBehaviorBenchmark'
     PLAYERS_PER_GROUP = 5
-    NUM_ROUNDS = 50
+    NUM_ROUNDS = 10
     MAXIMUM_PRICE = cu(100)
     MAXIMUM_QUALITY = 100
     INFORMAL_SIGNAL = 100
