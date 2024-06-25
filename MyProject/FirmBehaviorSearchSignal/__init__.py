@@ -216,12 +216,10 @@ def set_payoffs(group: Group):
     
     
     
-    profitDF= playerRank.sort_values(by = ['profit'])    
+    profitDF= playerDF.sort_values(by = ['profit'])    
     
     winning_profit = profitDF.profit[1]
-    firstPlace = profitDF.playerid[1]
     second_profit=profitDF.profit[2]
-    secondPlace =  profitDF.playerid[2]
     for p in players:
         if p.profit == winning_profit:
             p.payoff = 5
