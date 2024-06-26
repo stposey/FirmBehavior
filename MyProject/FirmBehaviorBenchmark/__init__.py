@@ -340,6 +340,8 @@ def set_payoffs(group: Group):
             p.payoff = 0
         if p.profit == second_profit:
             p.payoff = 2
+        if p.profit==0:
+        p.payoff=0
 
 
 class Player(BasePlayer):
