@@ -7,7 +7,8 @@ USE_POINTS = False
 DEMO_PAGE_INTRO_HTML = ''
 PARTICIPANT_FIELDS = []
 SESSION_FIELDS = []
-ROOMS = [dict(name='Benchmark', display_name='Firm Behavior Game')]
+ROOMS = [dict(name='Benchmark', display_name='Firm Behavior Game1'), dict(name='Signal', display_name='Firm Behavior2'), dict(name='Search', display_name='Firm Behavior3'), dict(name='SearchSignal', display_name='Firm Behavior4')]
+
 
 ADMIN_USERNAME = 'admin'
 # for security, best to set admin password in an environment variable
