@@ -335,11 +335,11 @@ def set_payoffs(group: Group):
     second_profit=profitDF.profit[3]
     secondPlace =  profitDF.playerid[3]
     for p in players:
-        if p.profit == winning_profit:
+        if p == firstPlace:
             p.payoff = 5
         else:
             p.payoff = 0
-        if p.profit == second_profit:
+        if p == secondPlace:
             p.payoff = 2
         if p.profit==0:
             p.payoff=0
