@@ -327,7 +327,8 @@ def set_payoffs(group: Group):
       
     
     
-    profitDF= playerRank.sort_values(by = ['profit'])    
+    profitDF= playerRank.sort_values(by = ['profit'])
+    profitDF=profitDF.reset_index(drop=True)
     
     winning_profit = profitDF.profit[1]
     firstPlace = profitDF.playerid[1]
