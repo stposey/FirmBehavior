@@ -244,7 +244,7 @@ class Player(BasePlayer):
     first = models.FloatField(initial=0, max=1)
     second = models.FloatField(initial=0, max=1)
 def cost_function(player: Player):
-    player.Cost=player.quality+.5*player.informalSignal+50*player.formalSignal
+    player.Cost=player.quality+.5*player.informalSignal+10*player.formalSignal
 class Introduction(Page):
     form_model = 'player'
 class Decide(Page):
