@@ -356,7 +356,7 @@ def set_payoffs(group: Group):
     
     
     
-    profitDF= playerDF.sort_values(by = ['profit'])
+    profitDF= playersDF.sort_values(by = ['profit'])
     profitDF=profitDF.reset_index(drop=True)
     
     winning_profit = profitDF.profit[4]
