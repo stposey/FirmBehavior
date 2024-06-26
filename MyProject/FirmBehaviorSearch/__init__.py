@@ -139,16 +139,16 @@ def set_payoffs(group: Group):
     for p in players:
         p.profit=(p.price-p.Cost)*p.Demand
     
-    group.price1=round(playerDF.price[0],2)
-    group.price2=round(playerDF.price[1],2)
-    group.price3=round(playerDF.price[2],2)
-    group.price4=round(playerDF.price[3],2)
-    group.price5=round(playerDF.price[4],2)
-    group.profit1=round(playerDF.profit[0],2)
-    group.profit2=round(playerDF.profit[1],2)
-    group.profit3=round(playerDF.profit[2],2)
-    group.profit4=round(playerDF.profit[3],2)
-    group.profit5=round(playerDF.profit[4],2)
+    group.price1=playerDF.price[0]
+    group.price2=playerDF.price[1]
+    group.price3=playerDF.price[2]
+    group.price4=playerDF.price[3]
+    group.price5=playerDF.price[4]
+    group.profit1=playerDF.profit[0]
+    group.profit2=playerDF.profit[1]
+    group.profit3=playerDF.profit[2]
+    group.profit4=playerDF.profit[3]
+    group.profit5=playerDF.profit[4]
     group.quality1=playerDF.quality[0]
     group.quality2=playerDF.quality[1]
     group.quality3=playerDF.quality[2]
