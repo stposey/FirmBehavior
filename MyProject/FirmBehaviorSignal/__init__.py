@@ -394,7 +394,6 @@ class ResultsWaitPage(WaitPage):
 class Results(Page):
     form_model = 'player'
 class FinalWaitPage(WaitPage):
-    after_all_players_arrive = Winner
     @staticmethod
     def is_displayed(player: Player):
         session = player.session
