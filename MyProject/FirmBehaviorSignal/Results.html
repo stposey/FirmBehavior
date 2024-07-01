@@ -72,20 +72,28 @@
             <mark>Firm 4</mark> {{group.FS4}}
             <mark>Firm 5</mark> {{group.FS5}}</td>
     </tr>
-     <tr>
-        <th>Winners and Prizes</th>
-        <td><mark>First </mark>{{ group.winning_profit }}
-            <mark>Second</mark> {{ group.second_profit }}
-        </td>
-    </tr>
     <tr>
-        <th>Prize Earnings for this Round</th>
-        <td><mark>Prize </mark>{{ player.payoff }}
-        </td>
+        <th>Previous Rounds</th>
+        <td>{{ player.in_all_rounds() }}
     </tr>
+
+
 
 </table>
 
+<script>
+<h1 id="final-message"></h1>
+    <script>
+        function finalScript() {
+            if ({{ player.first }} == 1) {
+                return "Congratulations you are the winner! Your prize earnings is $5";
+            } else {
+                return "Thank you for playing! Unfortunately you were not the highest earning firm";
+            }
+        }
+
+        document.getElementById("final-message").innerText = finalScript();
+    </script>
 
   
 In the following round you can update your quality, signals, and price to increase your profits! Use the information above on other firm choices to update your product and improve profits!  

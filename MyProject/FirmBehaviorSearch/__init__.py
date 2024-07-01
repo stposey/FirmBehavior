@@ -31,8 +31,6 @@ class Group(BaseGroup):
     profit4 = models.FloatField()
     profit5 = models.FloatField()
     profit1 = models.FloatField()
-    winning_profit = models.FloatField(initial=0)
-    second_profit = models.FloatField(initial=0)
 def set_payoffs(group: Group):
     import pandas as pd
     import numpy as np
@@ -139,16 +137,16 @@ def set_payoffs(group: Group):
     for p in players:
         p.profit=(p.price-p.Cost)*p.Demand
     
-    group.price1=playerDF.price[0]
-    group.price2=playerDF.price[1]
-    group.price3=playerDF.price[2]
-    group.price4=playerDF.price[3]
-    group.price5=playerDF.price[4]
-    group.profit1=playerDF.profit[0]
-    group.profit2=playerDF.profit[1]
-    group.profit3=playerDF.profit[2]
-    group.profit4=playerDF.profit[3]
-    group.profit5=playerDF.profit[4]
+    group.price1=round(playerDF.price[0],2)
+    group.price2=round(playerDF.price[1],2)
+    group.price3=round(playerDF.price[2],2)
+    group.price4=round(playerDF.price[3],2)
+    group.price5=round(playerDF.price[4],2)
+    group.profit1=round(playerDF.profit[0],2)
+    group.profit2=round(playerDF.profit[1],2)
+    group.profit3=round(playerDF.profit[2],2)
+    group.profit4=round(playerDF.profit[3],2)
+    group.profit5=round(playerDF.profit[4],2)
     group.quality1=playerDF.quality[0]
     group.quality2=playerDF.quality[1]
     group.quality3=playerDF.quality[2]
@@ -176,12 +174,11 @@ def set_payoffs(group: Group):
         p.Demand=p.Demand.item()
         p.profit=p.profit.item()
     
-    profitDF= playerDF.sort_values(by = ['profit'])
+    profitDF= playerDF.sort_values(by = ['profit'])    
     profitDF=profitDF.reset_index(drop=True)
     
-    winning_profit = profitDF.profit[4]
+    
     firstPlace = profitDF.playerid[4]
-    second_profit=profitDF.profit[3]
     secondPlace =  profitDF.playerid[3]
     for p in players:
         if p.id_in_group == firstPlace:
@@ -191,7 +188,14 @@ def set_payoffs(group: Group):
         if p.id_in_group == secondPlace:
             p.payoff = 2
         if p.profit==0:
-            p.payoff=0          
+            p.payoff=0
+def Winner(group: Group):
+    players = group.get_players()
+    winningprofit = max([p.totalProfit for p in players])
+    for p in players:
+           if p.totalProfit==winningprofit:
+                p.first=1
+                p.payoff=5
 class Player(BasePlayer):
     quality = models.FloatField(initial=0, label='Please enter the quality level from 0 to 100 for your product', max=C.MAXIMUM_QUALITY)
     profit = models.FloatField()
@@ -200,8 +204,11 @@ class Player(BasePlayer):
     Cost = models.FloatField(initial=0)
     first = models.FloatField(initial=0, max=1)
     second = models.FloatField(initial=0, max=1)
+    totalProfit = models.FloatField(initial=0)
 def cost_function(player: Player):
     player.Cost=player.quality
+def sumProfit(player: Player):
+    player.totalProfit= player.totalProfit+player.profit
 class Introduction(Page):
     form_model = 'player'
 class Decide(Page):
@@ -217,4 +224,17 @@ class ResultsWaitPage(WaitPage):
     after_all_players_arrive = set_payoffs
 class Results(Page):
     form_model = 'player'
-page_sequence = [Introduction, Decide, Price, ResultsWaitPage, Results]
+    @staticmethod
+    def before_next_page(player: Player, timeout_happened):
+        sumProfit(player)
+class FinalWaitPage(WaitPage):
+    after_all_players_arrive = Winner
+    @staticmethod
+    def is_displayed(player: Player):
+        session = player.session
+        subsession = player.subsession
+        if subsession.round_number==C.NUM_ROUNDS:
+            return True
+class Final(Page):
+    form_model = 'player'
+page_sequence = [Introduction, Decide, Price, ResultsWaitPage, Results, FinalWaitPage, Final]

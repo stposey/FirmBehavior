@@ -214,14 +214,11 @@ def set_payoffs(group: Group):
         p.Demand=p.Demand.item()
         p.profit=p.profit.item()
     
-    
-    
     profitDF= playerDF.sort_values(by = ['profit'])
     profitDF=profitDF.reset_index(drop=True)
     
-    winning_profit = profitDF.profit[4]
+    
     firstPlace = profitDF.playerid[4]
-    second_profit=profitDF.profit[3]
     secondPlace =  profitDF.playerid[3]
     for p in players:
         if p.id_in_group == firstPlace:
@@ -231,8 +228,14 @@ def set_payoffs(group: Group):
         if p.id_in_group == secondPlace:
             p.payoff = 2
         if p.profit==0:
-            p.payoff=0 
-            
+            p.payoff=0
+def Winner(group: Group):
+    players = group.get_players()
+    winningprofit = max([p.totalProfit for p in players])
+    for p in players:
+           if p.totalProfit==winningprofit:
+                p.first=1
+                p.payoff=5
 class Player(BasePlayer):
     informalSignal = models.FloatField(initial=0, label='Please invest in your informal signals ')
     quality = models.FloatField(initial=0, label='Please enter the quality level from 0 to 100 for your product', max=C.MAXIMUM_QUALITY)
@@ -242,9 +245,11 @@ class Player(BasePlayer):
     formalSignal = models.FloatField(blank=True, initial=0, label='Choose whether to apply or not apply formal signals ', max=1, min=0)
     Cost = models.FloatField(initial=0)
     first = models.FloatField(initial=0, max=1)
-    second = models.FloatField(initial=0, max=1)
+    totalProfit = models.FloatField(initial=0)
 def cost_function(player: Player):
     player.Cost=player.quality+.5*player.informalSignal+10*player.formalSignal
+def sumProfit(player: Player):
+    player.totalProfit= player.totalProfit+player.profit
 class Introduction(Page):
     form_model = 'player'
 class Decide(Page):
@@ -260,4 +265,23 @@ class ResultsWaitPage(WaitPage):
     after_all_players_arrive = set_payoffs
 class Results(Page):
     form_model = 'player'
-page_sequence = [Introduction, Decide, Price, ResultsWaitPage, Results]
+    @staticmethod
+    def before_next_page(player: Player, timeout_happened):
+        sumProfit(player)
+class FinalWaitPage(WaitPage):
+    after_all_players_arrive = Winner
+    @staticmethod
+    def is_displayed(player: Player):
+        session = player.session
+        subsession = player.subsession
+        if subsession.round_number==C.NUM_ROUNDS:
+            return True
+class Final(Page):
+    form_model = 'player'
+    @staticmethod
+    def is_displayed(player: Player):
+        session = player.session
+        subsession = player.subsession
+        if subsession.round_number==C.NUM_ROUNDS:
+            return True
+page_sequence = [Introduction, Decide, Price, ResultsWaitPage, Results, FinalWaitPage, Final]

@@ -15,34 +15,32 @@ class C(BaseConstants):
 class Subsession(BaseSubsession):
     pass
 class Group(BaseGroup):
-    profit = models.FloatField()
-    quality1 = models.FloatField()
-    quality2 = models.FloatField()
-    quality3 = models.FloatField()
-    quality4 = models.FloatField()
-    quality5 = models.FloatField()
-    price1 = models.FloatField()
-    price2 = models.FloatField()
-    price3 = models.FloatField()
-    price4 = models.FloatField()
-    price5 = models.FloatField()
-    IS1 = models.FloatField()
-    IS2 = models.FloatField()
-    IS3 = models.FloatField()
-    IS4 = models.FloatField()
-    IS5 = models.FloatField()
-    profit2 = models.FloatField()
-    profit3 = models.FloatField()
-    profit4 = models.FloatField()
-    profit5 = models.FloatField()
-    profit1 = models.FloatField()
-    FS1 = models.FloatField()
-    FS2 = models.FloatField()
-    FS3 = models.FloatField()
-    FS4 = models.FloatField()
-    FS5 = models.FloatField()
-    winning_profit = models.FloatField(initial=0)
-    second_profit = models.FloatField(initial=0)
+    profit = models.FloatField(initial=0)
+    quality1 = models.FloatField(initial=0)
+    quality2 = models.FloatField(initial=0)
+    quality3 = models.FloatField(initial=0)
+    quality4 = models.FloatField(initial=0)
+    quality5 = models.FloatField(initial=0)
+    price1 = models.FloatField(initial=0)
+    price2 = models.FloatField(initial=0)
+    price3 = models.FloatField(initial=0)
+    price4 = models.FloatField(initial=0)
+    price5 = models.FloatField(initial=0)
+    IS1 = models.FloatField(initial=0)
+    IS2 = models.FloatField(initial=0)
+    IS3 = models.FloatField(initial=0)
+    IS4 = models.FloatField(initial=0)
+    IS5 = models.FloatField(initial=0)
+    profit2 = models.FloatField(initial=0)
+    profit3 = models.FloatField(initial=0)
+    profit4 = models.FloatField(initial=0)
+    profit5 = models.FloatField(initial=0)
+    profit1 = models.FloatField(initial=0)
+    FS1 = models.FloatField(initial=0)
+    FS2 = models.FloatField(initial=0)
+    FS3 = models.FloatField(initial=0)
+    FS4 = models.FloatField(initial=0)
+    FS5 = models.FloatField(initial=0)
 def set_payoffs(group: Group):
     import pandas as pd
     import numpy as np
@@ -355,35 +353,20 @@ def set_payoffs(group: Group):
     
     
     
-    
-    profitDF= playersDF.sort_values(by = ['profit'])
+    profitDF= playerRank.sort_values(by = ['profit'])    
     profitDF=profitDF.reset_index(drop=True)
     
-    winning_profit = profitDF.profit[4]
-    firstPlace = profitDF.playerid[4]
-    second_profit=profitDF.profit[3]
-    secondPlace =  profitDF.playerid[3]
-    for p in players:
-        if p.id_in_group == firstPlace:
-            p.payoff = 5
-        else:
-            p.payoff = 0
-        if p.id_in_group == secondPlace:
-            p.payoff = 2
-        if p.profit==0:
-            p.payoff=0 
-
 class Player(BasePlayer):
     informalSignal = models.FloatField(initial=0, label='Please invest in your informal signals ')
     quality = models.FloatField(initial=0, label='Please enter the quality level from 0 to 100 for your product', max=C.MAXIMUM_QUALITY)
-    perceivedQuality = models.FloatField()
-    Demand = models.FloatField()
+    perceivedQuality = models.FloatField(initial=0)
+    Demand = models.FloatField(initial=0)
     price = models.FloatField(initial=0, label='Please enter an amount as your price')
     Cost = models.FloatField(initial=0)
-    profit = models.FloatField()
+    profit = models.FloatField(initial=0)
     formalSignal = models.FloatField(initial=0, max=1)
     first = models.FloatField(initial=0, max=1)
-    second = models.FloatField(initial=0, max=1)
+    totalProfit = models.FloatField(initial=0)
 def cost_function(player: Player):
     if(player.quality<60):
         player.formalSignal=0
@@ -402,6 +385,29 @@ class Price(Page):
     form_fields = ['price']
 class ResultsWaitPage(WaitPage):
     after_all_players_arrive = set_payoffs
+    @staticmethod
+    def is_displayed(player: Player):
+        session = player.session
+        subsession = player.subsession
+        if subsession.round_number<10:
+            return True
 class Results(Page):
     form_model = 'player'
-page_sequence = [Introduction, Decide, Price, ResultsWaitPage, Results]
+class FinalWaitPage(WaitPage):
+    after_all_players_arrive = Winner
+    @staticmethod
+    def is_displayed(player: Player):
+        session = player.session
+        subsession = player.subsession
+        if subsession.round_number==C.NUM_ROUNDS:
+            return True
+class Final(Page):
+    form_model = 'player'
+    @staticmethod
+    def is_displayed(player: Player):
+        session = player.session
+        subsession = player.subsession
+        if subsession.round_number==C.NUM_ROUNDS:
+            return True
+        
+page_sequence = [Introduction, Decide, Price, ResultsWaitPage, Results, FinalWaitPage, Final]
