@@ -1,0 +1,44 @@
+{{ extends 'global/Page.html' }}
+{{ block title }}Choose Price{{ endblock }}
+
+{{ block content }}
+
+<form id="decision-form" method="post">
+<p>
+Enter your price. Your price must be above 0. You can charge as much as you want for price, but remember the higher the price, the less people will want to buy. The cost to make 1 product at your firm is {{player.Cost}}. If you set a price below the cost, your firm will not be able to make a profit. To prevent firms from taking losses, firms are unable to choose a price below cost. Choose the price you believe will maximize the profit of your firm.
+</p>
+    <label for="price">Price:</label>
+    <input type="number" id="price" name="price" min="0" initial="0" value="{{ player.price }}">
+    <span id="error-message" style="color: red; display: none;">Please change price to be above cost</span>
+    <br><br>
+    <button type="submit" id="next-button" disabled>Next</button>
+</form>
+
+<script>
+    var timeout = null;
+
+    function checkPrice() {
+        var priceInput = document.getElementById("price");
+        var price = parseFloat(priceInput.value) || 0;
+        var errorMessage = document.getElementById("error-message");
+        var nextButton = document.getElementById("next-button");
+
+        if (price < {{player.Cost}}) {
+            errorMessage.style.display = 'inline';
+            nextButton.disabled = true;
+        } else {
+            errorMessage.style.display = 'none';
+            nextButton.disabled = false;
+        }
+    }
+
+    document.getElementById("price").addEventListener("input", function() {
+        clearTimeout(timeout);
+        timeout = setTimeout(checkPrice, 500); // 500 milliseconds = 0.5 seconds delay
+    });
+
+    // Initial check in case the page loads with values already set
+    checkPrice();
+</script>
+
+{{ endblock }}
