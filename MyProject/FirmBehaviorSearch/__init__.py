@@ -174,8 +174,7 @@ def set_payoffs(group: Group):
         p.Demand=p.Demand.item()
         p.profit=p.profit.item()
     
-
-
+    
 def Winner(group: Group):
     last_7_rounds = range(3, 11)
     players = group.get_players()
@@ -223,4 +222,10 @@ class FinalWaitPage(WaitPage):
             return True
 class Final(Page):
     form_model = 'player'
+    @staticmethod
+    def is_displayed(player: Player):
+        session = player.session
+        subsession = player.subsession
+        if subsession.round_number==C.NUM_ROUNDS:
+            return True
 page_sequence = [Introduction, Decide, Price, ResultsWaitPage, Results, FinalWaitPage, Final]

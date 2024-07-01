@@ -41,8 +41,6 @@ class Group(BaseGroup):
     FS3 = models.FloatField()
     FS4 = models.FloatField()
     FS5 = models.FloatField()
-    winning_profit = models.FloatField(initial=0)
-    second_profit = models.FloatField(initial=0)
 def set_payoffs(group: Group):
     import pandas as pd
     import numpy as np
@@ -214,7 +212,7 @@ def set_payoffs(group: Group):
         p.Demand=p.Demand.item()
         p.profit=p.profit.item()
     
-
+    
 def Winner(group: Group):
     last_7_rounds = range(3, 11)
     players = group.get_players()
