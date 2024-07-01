@@ -13,7 +13,11 @@ class C(BaseConstants):
     FORMAL_SIGNAL = 1
     INSTRUCTIONS_TEMPLATE = 'FirmBehaviorSignal/instructions.html'
 class Subsession(BaseSubsession):
-    pass
+    totalProfit1 = models.FloatField(initial=0)
+    totalProfit2 = models.FloatField(initial=0)
+    totalProfit3 = models.FloatField(initial=0)
+    totalProfit4 = models.FloatField(initial=0)
+    totalProfit5 = models.FloatField(initial=0)
 class Group(BaseGroup):
     profit = models.FloatField(initial=0)
     quality1 = models.FloatField(initial=0)
@@ -42,6 +46,8 @@ class Group(BaseGroup):
     FS4 = models.FloatField(initial=0)
     FS5 = models.FloatField(initial=0)
 def set_payoffs(group: Group):
+    session = group.session
+    subsession = group.subsession
     import pandas as pd
     import numpy as np
     
@@ -352,9 +358,37 @@ def set_payoffs(group: Group):
         p.profit=p.profit.item()
     
     
-    
-    profitDF= playerRank.sort_values(by = ['profit'])    
-    profitDF=profitDF.reset_index(drop=True)
+    subsession.totalProfit1=subsession.totalProfit1+group.profit1
+    subsession.totalProfit2=subsession.totalProfit2+group.profit2
+    subsession.totalProfit3=subsession.totalProfit3+group.profit3
+    subsession.totalProfit4=subsession.totalProfit4+group.profit4
+    subsession.totalProfit5=subsession.totalProfit5+group.profit5
+def Winner(group: Group):
+    session = group.session
+    subsession = group.subsession
+    totalProfit = max(subsession.totalProfit1,subsession.totalProfit2,subsession.totalProfit3,subsession.totalProfit4,subsession.totalProfit5)
+    players = group.get_players()
+    for p in players:
+        if totalProfit==subsession.totalProfit1:
+            if p.id_in_group==1:
+                p.first==1
+                p.payoff==5
+        if totalProfit==subsession.totalProfit2:
+            if p.id_in_group==2:
+                p.first==1
+                p.payoff==5
+        if totalProfit==subsession.totalProfit3:
+            if p.id_in_group==3:
+                p.first==1
+                p.payoff==5
+        if totalProfit==subsession.totalProfit4:
+            if p.id_in_group==4:
+                p.first==1
+                p.payoff==5
+        if totalProfit==subsession.totalProfit5:
+            if p.id_in_group==5:
+                p.first==1
+                p.payoff==5
     
 class Player(BasePlayer):
     informalSignal = models.FloatField(initial=0, label='Please invest in your informal signals ')
@@ -393,6 +427,7 @@ class ResultsWaitPage(WaitPage):
 class Results(Page):
     form_model = 'player'
 class FinalWaitPage(WaitPage):
+    after_all_players_arrive = Winner
     @staticmethod
     def is_displayed(player: Player):
         session = player.session
