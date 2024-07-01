@@ -1,0 +1,34 @@
+{{ extends 'global/Page.html' }}
+{{ block title }}Introduction{{ endblock }}
+
+{{ block content }}
+
+
+{% if subsession.round_number < 4 %}
+    <p>You are competing against 5 other firms who are selecting price, quality. You must choose price and quality that maximize your profits, but you are competing against others! After each round you will be told what the other firms have chosen and you can update your product in the next round. The goal is to be the highest profiting firm in each round!</p>
+
+    <p>Just like in reality consumers don't want to high prices on low quality goods. Plenty of consumers will choose lower quality over high quality if the price is right! You must compete on both quality and price! If you choose low quality in round 1, you can choose high quality in round 2 and vice versa. You are not stuck with your choices.</p>
+
+    <p>Cash payments are rewarded to the two highest profiting firms in each round. If you fall out of the top two firms, you can still win rewards in the following rounds.</p>
+
+    <p>This game goes for {{ C.NUM_ROUNDS }}. This is round {{ subsession.round_number }} and is a practice round.</p>
+    
+    {{ next_button }}
+{% endif %}
+
+{% if subsession.round_number > 3 %}
+    <p>You are competing against 5 other firms who are selecting price, quality. You must choose price and quality that maximize your profits, but you are competing against others! After each round you will be told what the other firms have chosen and you can update your product in the next round. The goal is to be the highest profiting firm in each round!</p>
+
+    <p>Just like in reality consumers don't want to high prices on low quality goods. Plenty of consumers will choose lower quality over high quality if the price is right! You must compete on both quality and price! If you choose low quality in round 1, you can choose high quality in round 2 and vice versa. You are not stuck with your choices.</p>
+
+    <p>Cash payments are rewarded to the two highest profiting firms in each round. If you fall out of the top two firms, you can still win rewards in the following rounds.</p>
+
+    <p>This game goes for {{ C.NUM_ROUNDS }}. This is round {{ subsession.round_number }}.</p>
+    
+    {{ next_button }}
+{% endif %}
+
+
+
+
+{{ endblock }}
