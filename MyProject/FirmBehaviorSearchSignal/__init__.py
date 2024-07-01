@@ -230,12 +230,16 @@ def set_payoffs(group: Group):
         if p.profit==0:
             p.payoff=0
 def Winner(group: Group):
+    last_7_rounds = range(3, 11)
     players = group.get_players()
-    winningprofit = max([p.totalProfit for p in players])
+    for n in players:
+        n.total_profit = sum(p.profit for p in n.in_all_rounds() if p.round_number in last_7_rounds)
+    
+    winner=max(p.total_profit for p in players)
     for p in players:
-           if p.totalProfit==winningprofit:
-                p.first=1
-                p.payoff=5
+        if winner==p.totalprofit:
+            p.first=1
+            p.payoff=5
 class Player(BasePlayer):
     informalSignal = models.FloatField(initial=0, label='Please invest in your informal signals ')
     quality = models.FloatField(initial=0, label='Please enter the quality level from 0 to 100 for your product', max=C.MAXIMUM_QUALITY)
