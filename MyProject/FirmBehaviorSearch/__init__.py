@@ -174,21 +174,8 @@ def set_payoffs(group: Group):
         p.Demand=p.Demand.item()
         p.profit=p.profit.item()
     
-    profitDF= playerDF.sort_values(by = ['profit'])    
-    profitDF=profitDF.reset_index(drop=True)
-    
-    
-    firstPlace = profitDF.playerid[4]
-    secondPlace =  profitDF.playerid[3]
-    for p in players:
-        if p.id_in_group == firstPlace:
-            p.payoff = 5
-        else:
-            p.payoff = 0
-        if p.id_in_group == secondPlace:
-            p.payoff = 2
-        if p.profit==0:
-            p.payoff=0
+
+
 def Winner(group: Group):
     last_7_rounds = range(3, 11)
     players = group.get_players()
