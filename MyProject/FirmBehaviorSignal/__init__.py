@@ -366,7 +366,6 @@ class Player(BasePlayer):
     profit = models.FloatField(initial=0)
     formalSignal = models.FloatField(initial=0, max=1)
     first = models.FloatField(initial=0, max=1)
-    totalProfit = models.FloatField(initial=0)
 def cost_function(player: Player):
     if(player.quality<60):
         player.formalSignal=0
