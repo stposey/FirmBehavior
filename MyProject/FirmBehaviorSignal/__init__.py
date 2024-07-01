@@ -360,7 +360,7 @@ def Winner(group: Group):
     
     winner=max(p.total_profit for p in players)
     for p in players:
-        if winner==p.totalprofit:
+        if winner==p.total_profit:
             p.first=1
             p.payoff=5
     
