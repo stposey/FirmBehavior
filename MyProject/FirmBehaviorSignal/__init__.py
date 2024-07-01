@@ -13,11 +13,7 @@ class C(BaseConstants):
     FORMAL_SIGNAL = 1
     INSTRUCTIONS_TEMPLATE = 'FirmBehaviorSignal/instructions.html'
 class Subsession(BaseSubsession):
-    totalProfit1 = models.FloatField(initial=0)
-    totalProfit2 = models.FloatField(initial=0)
-    totalProfit3 = models.FloatField(initial=0)
-    totalProfit4 = models.FloatField(initial=0)
-    totalProfit5 = models.FloatField(initial=0)
+    pass
 class Group(BaseGroup):
     profit = models.FloatField(initial=0)
     quality1 = models.FloatField(initial=0)
@@ -46,8 +42,6 @@ class Group(BaseGroup):
     FS4 = models.FloatField(initial=0)
     FS5 = models.FloatField(initial=0)
 def set_payoffs(group: Group):
-    session = group.session
-    subsession = group.subsession
     import pandas as pd
     import numpy as np
     
@@ -358,37 +352,17 @@ def set_payoffs(group: Group):
         p.profit=p.profit.item()
     
     
-    subsession.totalProfit1=subsession.totalProfit1+group.profit1
-    subsession.totalProfit2=subsession.totalProfit2+group.profit2
-    subsession.totalProfit3=subsession.totalProfit3+group.profit3
-    subsession.totalProfit4=subsession.totalProfit4+group.profit4
-    subsession.totalProfit5=subsession.totalProfit5+group.profit5
 def Winner(group: Group):
-    session = group.session
-    subsession = group.subsession
-    totalProfit = max(subsession.totalProfit1,subsession.totalProfit2,subsession.totalProfit3,subsession.totalProfit4,subsession.totalProfit5)
+    last_7_rounds = range(3, 11)
     players = group.get_players()
+    for n in players:
+        n.total_profit = sum(p.profit for p in n.in_all_rounds() if p.round_number in last_7_rounds)
+    
+    winner=max(p.total_profit for p in players)
     for p in players:
-        if totalProfit==subsession.totalProfit1:
-            if p.id_in_group==1:
-                p.first==1
-                p.payoff==5
-        if totalProfit==subsession.totalProfit2:
-            if p.id_in_group==2:
-                p.first==1
-                p.payoff==5
-        if totalProfit==subsession.totalProfit3:
-            if p.id_in_group==3:
-                p.first==1
-                p.payoff==5
-        if totalProfit==subsession.totalProfit4:
-            if p.id_in_group==4:
-                p.first==1
-                p.payoff==5
-        if totalProfit==subsession.totalProfit5:
-            if p.id_in_group==5:
-                p.first==1
-                p.payoff==5
+        if winner==p.totalprofit:
+            p.first=1
+            p.payoff=5
     
 class Player(BasePlayer):
     informalSignal = models.FloatField(initial=0, label='Please invest in your informal signals ')
@@ -400,6 +374,7 @@ class Player(BasePlayer):
     profit = models.FloatField(initial=0)
     formalSignal = models.FloatField(initial=0, max=1)
     first = models.FloatField(initial=0, max=1)
+    total_profit = models.FloatField(initial=0)
 def cost_function(player: Player):
     if(player.quality<60):
         player.formalSignal=0
