@@ -6,7 +6,7 @@ doc = ''
 class C(BaseConstants):
     NAME_IN_URL = 'FirmBehaviorBenchmark'
     PLAYERS_PER_GROUP = 5
-    NUM_ROUNDS = 10
+    NUM_ROUNDS = 6
     MAXIMUM_PRICE = cu(100)
     MAXIMUM_QUALITY = 100
     INFORMAL_SIGNAL = 100
@@ -354,19 +354,23 @@ def cost_function(player: Player):
     player.Cost=player.quality
 class Introduction(Page):
     form_model = 'player'
+    timeout_seconds = 45
 class Decide(Page):
     form_model = 'player'
     form_fields = ['quality']
+    timeout_seconds = 45
     @staticmethod
     def before_next_page(player: Player, timeout_happened):
         cost_function(player)
 class Price(Page):
     form_model = 'player'
     form_fields = ['price']
+    timeout_seconds = 45
 class ResultsWaitPage(WaitPage):
     after_all_players_arrive = set_payoffs
 class Results(Page):
     form_model = 'player'
+    timeout_seconds = 45
 class FinalWaitPage(WaitPage):
     after_all_players_arrive = Winner
     @staticmethod
@@ -377,6 +381,7 @@ class FinalWaitPage(WaitPage):
             return True
 class Final(Page):
     form_model = 'player'
+    timeout_seconds = 120
     @staticmethod
     def is_displayed(player: Player):
         session = player.session
