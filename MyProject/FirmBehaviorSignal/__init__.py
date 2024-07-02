@@ -69,6 +69,7 @@ def set_payoffs(group: Group):
     playerRank = PlayerDF.sort_values(by = ['perceivedQuality'])
     playerRank['QualityRank']=playerList
     playerRank.index=playerRank['QualityRank']
+    playerRank.fillna(0)
     
     #Demand for Start at highest Quality:
     if playerRank.perceivedQuality[5]==playerRank.perceivedQuality[4]:
@@ -293,7 +294,7 @@ def set_payoffs(group: Group):
     
     for p in players:
         p.profit=(p.price-p.Cost)*p.Demand
-        p.fillna(0)
+
     
     group.price1=round(playersDF.price[1],2)
     group.price2=round(playersDF.price[2],2)
