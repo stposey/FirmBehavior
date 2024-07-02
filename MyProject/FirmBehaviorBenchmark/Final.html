@@ -1,0 +1,21 @@
+{{ extends 'global/Page.html' }}
+{{ block title }}Final{{ endblock }}
+
+{{ block content }}
+
+
+<h1 id="final-message"></h1>
+<script>
+    function finalScript() {
+        if ({{ player.first }} == 1) {
+            return "Congratulations you are the winner! Your prize earnings is $5 enter code WIN2024 to claim your prize";
+        } else {
+            return "Thank you for playing! Unfortunately you were not the highest earning firm enter code FB2024 to receive credit that you played";
+        }
+    }
+
+    document.getElementById("final-message").innerText = finalScript();
+</script>
+
+
+{{ endblock }}
