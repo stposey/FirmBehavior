@@ -155,7 +155,7 @@ def set_payoffs(group: Group):
     
     for p in players:
         p.profit=(p.price-p.Cost)*p.Demand
-        p.fillna(0)
+       
     
     group.price1=round(playerDF.price[0],2)
     group.price2=round(playerDF.price[1],2)
@@ -227,10 +227,10 @@ def Winner(group: Group):
             p.payoff=5
 class Player(BasePlayer):
     informalSignal = models.FloatField(initial=0, label='Please invest in your informal signals ')
-    quality = models.FloatField(initial=0, label='Please enter the quality level from 0 to 100 for your product', max=C.MAXIMUM_QUALITY)
+    quality = models.FloatField(initial=1, label='Please enter the quality level from 0 to 100 for your product', max=C.MAXIMUM_QUALITY)
     profit = models.FloatField(initial=0)
     Demand = models.FloatField(initial=0)
-    price = models.FloatField(initial=0, label='Please enter an amount as your price')
+    price = models.FloatField(initial=1, label='Please enter an amount as your price')
     formalSignal = models.FloatField(blank=True, initial=0, label='Choose whether to apply or not apply formal signals ', max=1, min=0)
     Cost = models.FloatField(initial=0)
     first = models.FloatField(initial=0, max=1)
