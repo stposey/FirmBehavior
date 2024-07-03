@@ -15,22 +15,22 @@ class C(BaseConstants):
 class Subsession(BaseSubsession):
     pass
 class Group(BaseGroup):
-    profit = models.FloatField()
-    quality1 = models.FloatField()
-    quality2 = models.FloatField()
-    quality3 = models.FloatField()
-    quality4 = models.FloatField()
-    quality5 = models.FloatField()
-    price1 = models.FloatField()
-    price2 = models.FloatField()
-    price3 = models.FloatField()
-    price4 = models.FloatField()
-    price5 = models.FloatField()
-    profit2 = models.FloatField()
-    profit3 = models.FloatField()
-    profit4 = models.FloatField()
-    profit5 = models.FloatField()
-    profit1 = models.FloatField()
+    profit = models.FloatField(initial=0)
+    quality1 = models.FloatField(initial=0)
+    quality2 = models.FloatField(initial=0)
+    quality3 = models.FloatField(initial=0)
+    quality4 = models.FloatField(initial=0)
+    quality5 = models.FloatField(initial=0)
+    price1 = models.FloatField(initial=0)
+    price2 = models.FloatField(initial=0)
+    price3 = models.FloatField(initial=0)
+    price4 = models.FloatField(initial=0)
+    price5 = models.FloatField(initial=0)
+    profit2 = models.FloatField(initial=0)
+    profit3 = models.FloatField(initial=0)
+    profit4 = models.FloatField(initial=0)
+    profit5 = models.FloatField(initial=0)
+    profit1 = models.FloatField(initial=0)
 def set_payoffs(group: Group):
     import pandas as pd
     import numpy as np
@@ -136,7 +136,7 @@ def set_payoffs(group: Group):
     
     for p in players:
         p.profit=(p.price-p.Cost)*p.Demand
-        
+        p.replace(np.nan, 0)
     
     group.price1=round(playerDF.price[0],2)
     group.price2=round(playerDF.price[1],2)
@@ -181,6 +181,7 @@ def Winner(group: Group):
     players = group.get_players()
     for n in players:
         n.total_profit = sum(p.profit for p in n.in_all_rounds() if p.round_number in last_7_rounds)
+    
     
     winner=max(p.total_profit for p in players)
     for p in players:

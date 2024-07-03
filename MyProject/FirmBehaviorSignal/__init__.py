@@ -70,7 +70,6 @@ def set_payoffs(group: Group):
     playerRank['QualityRank']=playerList
     playerRank.index=playerRank['QualityRank']
     
-    
     #Demand for Start at highest Quality:
     if playerRank.perceivedQuality[5]==playerRank.perceivedQuality[4]:
         if playerRank.price[5]>playerRank.price[4]:
@@ -294,7 +293,7 @@ def set_payoffs(group: Group):
     
     for p in players:
         p.profit=(p.price-p.Cost)*p.Demand
-
+        p.replace(np.nan, 0)
     
     group.price1=round(playersDF.price[1],2)
     group.price2=round(playersDF.price[2],2)
@@ -355,7 +354,7 @@ def set_payoffs(group: Group):
     
     
 def Winner(group: Group):
-    last_7_rounds = range(2, 11)
+    last_7_rounds = range(2, 7)
     players = group.get_players()
     for n in players:
         n.total_profit = sum(p.profit for p in n.in_all_rounds() if p.round_number in last_7_rounds)
@@ -384,22 +383,26 @@ def cost_function(player: Player):
     player.Cost=player.quality+.5*player.informalSignal+10*player.formalSignal
 class Introduction(Page):
     form_model = 'player'
-    timeout_seconds = 40
+    timeout_seconds = 45
 class Decide(Page):
     form_model = 'player'
     form_fields = ['quality', 'informalSignal', 'formalSignal']
-    timeout_seconds = 30
+    timeout_seconds = 40
     @staticmethod
     def before_next_page(player: Player, timeout_happened):
         cost_function(player)
 class Price(Page):
     form_model = 'player'
     form_fields = ['price']
-    timeout_seconds = 30
+    timeout_seconds = 40
 class ResultsWaitPage(WaitPage):
     after_all_players_arrive = set_payoffs
     @staticmethod
-
+    def is_displayed(player: Player):
+        session = player.session
+        subsession = player.subsession
+        if subsession.round_number<10:
+            return True
 class Results(Page):
     form_model = 'player'
     timeout_seconds = 45

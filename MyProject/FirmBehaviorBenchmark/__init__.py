@@ -33,7 +33,7 @@ class Group(BaseGroup):
     profit1 = models.FloatField(initial=0)
 def set_payoffs(group: Group):
     import pandas as pd
-    
+    import numpy as np
     
     qualities=[]
     prices=[]
@@ -289,7 +289,7 @@ def set_payoffs(group: Group):
     
     for p in players:
         p.profit=(p.price-p.Cost)*p.Demand
-       
+        p.replace(np.nan, 0)
     
     group.price1=round(playersDF.price[1],2)
     group.price2=round(playersDF.price[2],2)
