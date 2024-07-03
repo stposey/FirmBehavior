@@ -289,7 +289,7 @@ def set_payoffs(group: Group):
     
     for p in players:
         p.profit=(p.price-p.Cost)*p.Demand
-        p.replace(np.nan, 0)
+       
     
     group.price1=round(playersDF.price[1],2)
     group.price2=round(playersDF.price[2],2)
@@ -343,11 +343,11 @@ def Winner(group: Group):
             p.first=1
             p.payoff=5
 class Player(BasePlayer):
-    quality = models.FloatField(initial=0, label='Please enter the quality level from 0 to 100 for your product', max=C.MAXIMUM_QUALITY)
+    quality = models.FloatField(initial=1, label='Please enter the quality level from 0 to 100 for your product', max=C.MAXIMUM_QUALITY)
     profit = models.FloatField(initial=0)
     perceivedQuality = models.FloatField(initial=0)
     Demand = models.FloatField(initial=0)
-    price = models.FloatField(initial=0, label='Please enter an amount as your price')
+    price = models.FloatField(initial=1, label='Please enter an amount as your price')
     Cost = models.FloatField(initial=0)
     first = models.FloatField(initial=0)
     total_profit = models.FloatField(initial=0)
