@@ -367,7 +367,7 @@ def Winner(group: Group):
             p.payoff=5
     
 class Player(BasePlayer):
-    informalSignal = models.FloatField(initial=0, label='Please invest in your informal signals ')
+    informalSignal = models.FloatField(initial=1, label='Please invest in your informal signals ')
     quality = models.FloatField(initial=1, label='Please enter the quality level from 0 to 100 for your product', max=C.MAXIMUM_QUALITY)
     perceivedQuality = models.FloatField(initial=0)
     Demand = models.FloatField(initial=0)
