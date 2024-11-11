@@ -49,7 +49,7 @@ def set_payoffs(group: Group):
     theta=np.random.randint(1, 100, 200)
     priceC=np.random.randint(1, 100, 200)
     buy=[0 for element in range(200)]
-    priceQualityC=np.divide(priceC,theta)
+    priceQualityC=np.random.uniform(0, 4, 200)
     customers=pd.DataFrame(data= {'theta':theta,'firm1':firm1,'firm2':firm2,'firm3':firm3,'firm4':firm4,'firm5':firm5,'price':priceC,'priceQuality':priceQualityC})
     
     qualities=[]
@@ -66,57 +66,57 @@ def set_payoffs(group: Group):
     PlayerDF = pd.DataFrame(data = {'playerid':playerList,'quality':qualities,'price':prices,'priceQuality':priceQuality})
     playerDF = PlayerDF.sort_values(by = ['playerid'])
     
-    for i in range(200):
+        for i in range(200):
         choice1=customers.firm1[i]-1
         choice2=customers.firm2[i]-1
         choice3=customers.firm3[i]-1
         choice4=customers.firm4[i]-1
         choice5=customers.firm5[i]-1
         pqC=customers.priceQuality[i]
-        minPQ=PlayerDF.priceQuality[choice1]
+        minPQ=playerDF.priceQuality[choice1]
         minFirm=choice1+1
-        if pqC>PlayerDF.priceQuality[choice1]:  #choice 1 IF consumer has higher pq ratio they choose choice 1. If not, they move on with search
+        if pqC>playerDF.priceQuality[choice1]:  #choice 1 IF consumer has higher pq ratio they choose choice 1. If not, they move on with search
             buy[i]=minFirm
             continue
         else: 
             pqC=pqC*1.5 #search cost is not flat
-        if PlayerDF.priceQuality[choice2]<PlayerDF.priceQuality[choice1]:
-            minPQ=PlayerDF.priceQuality[choice2]
+        if playerDF.priceQuality[choice2]<playerDF.priceQuality[choice1]:
+            minPQ=playerDF.priceQuality[choice2]
             minFirm=choice2+1
-        if pqC>PlayerDF.priceQuality[choice2]: #choice 2. If consumer has higher pq ratio they choose choice 2. If not they move on with search
+        if pqC>playerDF.priceQuality[choice2]: #choice 2. If consumer has higher pq ratio they choose choice 2. If not they move on with search
             buy[i]=minFirm
             continue
         else:
             pqC=pqC*1.5 
     
     
-        if PlayerDF.priceQuality[choice3]<minPQ:
-            minPQ=PlayerDF.priceQuality[choice3]
-            minFirm=choice3+1
-        if pqC>PlayerDF.priceQuality[choice3]: #Choice3
-            buy[i]=minFirm
-            continue
-        else:
-            pqC=pqC*1.5
-    
-    
-        if PlayerDF.priceQuality[choice4]<minPQ:
-            minPQ=PlayerDF.priceQuality[choice4]
-            minFirm=choice4+1
-        if pqC>PlayerDF.priceQuality[choice4]: #Choice4
-            buy[i]=minFirm
-            continue
-        else:
-            pqC=pqC*1.5
-    
-        if PlayerDF.priceQuality[choice5]<minPQ:
-            minPQ=PlayerDF.priceQuality[choice5]
-            minFirm=choice5+1
-        if pqC>PlayerDF.priceQuality[choice5]: #Choice5
-            buy[i]=minFirm
-            continue
-        else:
-            buy[i]=0
+            if playerDF.priceQuality[choice3]<pqC:
+                minPQ=playerDF.priceQuality[choice3]
+                minFirm=choice3+1
+            if pqC>playerDF.priceQuality[choice3]: #Choice3
+                buy[i]=minFirm
+                continue
+            else:
+                pqC=pqC*1.5
+        
+        
+                if playerDF.priceQuality[choice4]<pqC:
+                    minPQ=playerDF.priceQuality[choice4]
+                    minFirm=choice4+1
+                if pqC>playerDF.priceQuality[choice4]: #Choice4
+                    buy[i]=minFirm
+                    continue
+                else:
+                    pqC=pqC*1.5
+            
+                    if playerDF.priceQuality[choice5]<pqC:
+                        minPQ=playerDF.priceQuality[choice5]
+                        minFirm=choice5+1
+                    if pqC>playerDF.priceQuality[choice5]: #Choice5
+                        buy[i]=minFirm
+                        continue
+                    else:
+                        buy[i]=0 #Consumer opts out from buying
     
     customers['buy']=buy
     demand=[buy.count(1),buy.count(2),buy.count(3),buy.count(4),buy.count(5)]
