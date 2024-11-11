@@ -139,7 +139,7 @@ def set_payoffs(group: Group):
     demand=[buy.count(1),buy.count(2),buy.count(3),buy.count(4),buy.count(5)]
     playerDF['demand']=np.float64(demand)
     playerDF.fillna(0)
-    playerDF['profit']=playerDF.price*playerDF.demand-(playerDF.quality-.5*playerDF.informalSignals-playerDF.formalSignals*10)*playerDF.demand
+    playerDF['profit']=playerDF.price*playerDF.demand-(playerDF.quality+.5*playerDF.informalSignals+playerDF.formalSignals*10)*playerDF.demand
     
     
     for p in players:
