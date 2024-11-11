@@ -59,7 +59,7 @@ def set_payoffs(group: Group):
     theta=np.random.randint(1, 100, 200)
     priceC=np.random.randint(1, 100, 200)
     buy=[0 for element in range(200)]
-    priceQualityC=np.divide(priceC,theta)
+    priceQualityC=np.random.uniform(0, 4, 200)
     customers=pd.DataFrame(data= {'theta':theta,'firm1':firm1,'firm2':firm2,'firm3':firm3,'firm4':firm4,'firm5':firm5,'price':priceC,'priceQuality':priceQualityC})
     
     qualities=[]
@@ -107,33 +107,33 @@ def set_payoffs(group: Group):
             pqC=pqC*1.5 
     
     
-        if playerDF.priceQuality[choice3]<minPQ:
-            minPQ=playerDF.priceQuality[choice3]
-            minFirm=choice3+1
-        if pqC>playerDF.priceQuality[choice3]: #Choice3
-            buy[i]=minFirm
-            continue
-        else:
-            pqC=pqC*1.5
-    
-    
-        if playerDF.priceQuality[choice4]<minPQ:
-            minPQ=playerDF.priceQuality[choice4]
-            minFirm=choice4+1
-        if pqC>playerDF.priceQuality[choice4]: #Choice4
-            buy[i]=minFirm
-            continue
-        else:
-            pqC=pqC*1.5
-    
-        if playerDF.priceQuality[choice5]<minPQ:
-            minPQ=playerDF.priceQuality[choice5]
-            minFirm=choice5+1
-        if pqC>playerDF.priceQuality[choice5]: #Choice5
-            buy[i]=minFirm
-            continue
-        else:
-            buy[i]=0 #Consumer opts out from buying
+            if playerDF.priceQuality[choice3]<pqC:
+                minPQ=playerDF.priceQuality[choice3]
+                minFirm=choice3+1
+            if pqC>playerDF.priceQuality[choice3]: #Choice3
+                buy[i]=minFirm
+                continue
+            else:
+                pqC=pqC*1.5
+        
+        
+                if playerDF.priceQuality[choice4]<pqC:
+                    minPQ=playerDF.priceQuality[choice4]
+                    minFirm=choice4+1
+                if pqC>playerDF.priceQuality[choice4]: #Choice4
+                    buy[i]=minFirm
+                    continue
+                else:
+                    pqC=pqC*1.5
+            
+                    if playerDF.priceQuality[choice5]<pqC:
+                        minPQ=playerDF.priceQuality[choice5]
+                        minFirm=choice5+1
+                    if pqC>playerDF.priceQuality[choice5]: #Choice5
+                        buy[i]=minFirm
+                        continue
+                    else:
+                        buy[i]=0 #Consumer opts out from buying
     
     customers['buy']=buy
     demand=[buy.count(1),buy.count(2),buy.count(3),buy.count(4),buy.count(5)]
