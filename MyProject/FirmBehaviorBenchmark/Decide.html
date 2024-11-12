@@ -9,7 +9,7 @@
 </p>
 <form id="decision-form" method="post">
 <p>
-    Enter the quality of your product. Quality ranges from 0 to 100 with 100 being the highest quality obtainable. The form will not let you put in a value over 100. Customers prefer higher quality to lower quality products. As you increase the quality of your product, the cost to make your product increases. In our study, high quality products are considered 60 and above.
+    Enter the quality of your product. Quality ranges from 0 to 100 with 100 being the highest quality obtainable. The form will not let you put in a value over 100. Customers prefer higher quality to lower quality products. As you increase the quality of your product, the cost to make your product increases. In our game, products are considered high quality if they are 60 and above.
 </p>
     <label for="quality">Quality:</label>
     <input type="float" id="quality" name="quality" min="0" max="100" initial=0 value="{{ player.quality }}" oninput="checkQualityAndUpdateFormalSignal()">
