@@ -5,7 +5,9 @@
 
 <form id="decision-form" method="post">
 <p>
-Enter your price. Your price must be above 0. You can charge as much as you want for price, but remember the higher the price, the less people will want to buy. The cost to make 1 product at your firm is {{player.Cost}}. If you set a price below the cost, your firm will not be able to make a profit. To prevent firms from taking losses, firms are unable to choose a price below cost. Choose the price you believe will maximize the profit of your firm.
+Enter your price. 
+    You can charge as much as you want for price, but remember the higher the price, the less people will want to buy.
+    The cost to make 1 product at your firm is {{player.Cost}}. If you set a price below the cost, your firm will not be able to make a profit.
 </p>
     <label for="price">Price:</label>
     <input type="number" id="price" name="price" min="0" initial="0" value="{{ player.price }}">
