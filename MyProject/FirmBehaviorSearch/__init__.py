@@ -66,7 +66,7 @@ def set_payoffs(group: Group):
     PlayerDF = pd.DataFrame(data = {'playerid':playerList,'quality':qualities,'price':prices,'priceQuality':priceQuality})
     playerDF = PlayerDF.sort_values(by = ['playerid'])
     
-        for i in range(200):
+    for i in range(200):
         choice1=customers.firm1[i]-1
         choice2=customers.firm2[i]-1
         choice3=customers.firm3[i]-1
