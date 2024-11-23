@@ -5,11 +5,11 @@
 
 <h1>Make Your Decisions</h1>
 <p>
-   
+    Enter the quality of your product. Quality ranges from 0 to 100 with 100 being the highest quality obtainable. Customers prefer higher quality to lower quality products. As you increase the quality of your product, the cost to make your product increases. If you set your quality level to 68, it will cost your firm $68 to produce that product.
 </p>
 <form id="decision-form" method="post">
 <p>
-  Enter the quality of your product. Quality ranges from 0 to 100 with 100 being the highest quality obtainable. Customers prefer higher quality to lower quality products. As you increase the quality of your product, the cost to make your product increases. If you set your quality level to 1, it will cost your firm $1 to produce that product, and a quality of 100 will cost you $100 to product that product.
+    Enter the quality of your product. Quality ranges from 0 to 100 with 100 being the highest quality obtainable. The form will not let you put in a value over 100. Customers prefer higher quality to lower quality products. As you increase the quality of your product, the cost to make your product increases. In our game, products are considered high quality if they are 60 and above.
 </p>
     <label for="quality">Quality:</label>
     <input type="float" id="quality" name="quality" min="0" max="100" initial=0 value="{{ player.quality }}" oninput="checkQualityAndUpdateFormalSignal()">
