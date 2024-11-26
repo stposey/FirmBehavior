@@ -275,7 +275,7 @@ def set_payoffs(group: Group):
     
     
     playerRank['demand']=[demand1,demand2,demand3,demand4,demand5]
-    playerRank['profit']= playerRank.price*playerRank.demand-(playerRank.quality+.5*playerRank.informalSignal+playerRank.formalSignal*10)*playerRank.demand
+    playerRank['profit']= 100*playerRank.price*playerRank.demand-(playerRank.quality+.5*playerRank.informalSignal+playerRank.formalSignal*10)*playerRank.demand
     playersDF= playerRank.sort_values(by = ['playerid'])
     playersDF.index=playersDF['playerid']
     
