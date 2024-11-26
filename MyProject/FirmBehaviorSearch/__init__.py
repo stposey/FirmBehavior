@@ -121,7 +121,7 @@ def set_payoffs(group: Group):
     customers['buy']=buy
     demand=[buy.count(1),buy.count(2),buy.count(3),buy.count(4),buy.count(5)]
     playerDF['demand']=np.float64(demand)
-    playerDF['profit']=playerDF.price*playerDF.demand-playerDF.quality*playerDF.demand
+    playerDF['profit']=playerDF.price*playerDF.demand-(playerDF.quality*playerDF.demand)
     for p in players:
         if p.id_in_group==1:
             p.Demand=playerDF.demand[0]
